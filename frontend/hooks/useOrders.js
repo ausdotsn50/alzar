@@ -32,7 +32,8 @@ export const useOrders = (userId) => {
             console.error("Error fetching orders: ", error);
         }
     }, [userId]);
-
+    
+    /*
     const fetchSummary = useCallback(async() => {
         try {
             const response = await fetch(`${API_URL}/orders/summary/${userId}`);
@@ -42,6 +43,7 @@ export const useOrders = (userId) => {
             console.error("Error fetching summary: ", error);
         }
     }, [userId]);
+    */
 
     // function to be able to call orders and summary at the same time
     const loadData = useCallback(async() => {
@@ -49,13 +51,13 @@ export const useOrders = (userId) => {
         setIsLoading(true);
 
         try {
-            await Promise.all([fetchOrders(), fetchSummary()]);
+            await Promise.all([fetchOrders()]);
         } catch(error) {
             console.error("Error loading data: ", error);
         } finally {
             setIsLoading(false); // after fetching set to false
         }
-    },[fetchOrders, fetchSummary, userId]);
+    },[fetchOrders, userId]);
 
     // loadData used to refresh UI
     // To do: add delete functionality
@@ -72,5 +74,5 @@ export const useOrders = (userId) => {
         }
     }, [loadData]);
     
-    return { orders, summary, isLoading, loadData, deleteOrder };
+    return { orders, isLoading, loadData, deleteOrder };
 }

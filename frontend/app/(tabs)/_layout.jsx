@@ -1,16 +1,10 @@
 import { BlurView } from 'expo-blur';
 import { COLORS } from "@/constants/color.js";
 import { FontAwesome, FontAwesome5, FontAwesome6, Ionicons } from "@expo/vector-icons";
-import { Redirect, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { StyleSheet } from 'react-native';
-import { useUser } from '@clerk/clerk-expo';
 
 export default function TabLayout() {
-  const { isSignedIn, isLoaded } = useUser();
-  
-  if(!isLoaded) return null; // ux purposes
-  if (!isSignedIn) return <Redirect href={"/sign-in"} />;
-
   return (
     <Tabs
       screenOptions={{

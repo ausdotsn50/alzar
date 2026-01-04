@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 
 export const SignOutButton = () => {
   // Use `useClerk()` to access the `signOut()` function
-  const { signOut } = useClerk()
+  // const { signOut } = useClerk()
   const router = useRouter();
 
   const handleSignOut = () => {

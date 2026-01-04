@@ -7,13 +7,12 @@ import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
 import { useEffect, useState } from 'react';
 import { useOrders } from "@/hooks/useOrders";
-import { useUser } from '@clerk/clerk-expo';
 import { handleDelete } from "@/utils/helpers";
 
 export default function Home() {
   // Hooks
-  const { user } = useUser();
-  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders(user.id)
+  // Removed
+  const { orders, isLoading, loadData, deleteOrder } = useOrders("user_30fchKVx5rA45v3VB84XXgJDOvP")
 
   // Formatting values
   const currentDate = new Date(); // date today
@@ -39,7 +38,7 @@ export default function Home() {
 
   if(isLoading) return <PageLoader />;
   
-  const topItem = summary.topRevContri.quantity > 1 ? summary.topRevContri.item + "s" :  summary.topRevContri.item;
+  //const topItem = summary.topRevContri.quantity > 1 ? summary.topRevContri.item + "s" :  summary.topRevContri.item;
 
   return (
     <View style={genStyles.container}>
@@ -58,7 +57,7 @@ export default function Home() {
             />
             <View style={styles.welcomeContainer}>
               <Text style={styles.welcomeText}>Welcome,</Text>
-              <Text style={styles.usernameText}>{user?.emailAddresses[0]?.emailAddress.split("@")[0]}</Text>
+              {/*<Text style={styles.usernameText}>{user?.emailAddresses[0]?.emailAddress.split("@")[0]}</Text>*/}
             </View>
 
           </View>
@@ -77,7 +76,7 @@ export default function Home() {
             {/* L and R report divisions */}
             <View style={styles.report}>
               
-              <View>
+              {/*<View>
                 {summary.revenue[0].rev ? (
                   <Text style={styles.revenueAmount}>Php {parseFloat(summary.revenue[0].rev).toFixed(2)}</Text>
                 ) : (
@@ -97,17 +96,17 @@ export default function Home() {
                 )}
 
                 <Text style={styles.topRevenueText}>{summary.topRevContri.quantity} {topItem}</Text>
-              </View>
+              </View>*/}
 
               <View>
                 <View style={styles.reportMiniCard}>
                   <Text style={styles.delivers}>Delivers</Text>
-                  <Text style={styles.delivers}>{summary.delivers[0].count}</Text>
+                  {/*<Text style={styles.delivers}>{summary.delivers[0].count}</Text>*/}
                 </View>
 
                 <View style={styles.reportMiniCard}>
                   <Text style={styles.walkins}>Walk-Ins</Text>
-                  <Text style={styles.walkins}>{summary.walkins[0].count}</Text>
+                  {/*<Text style={styles.walkins}>{summary.walkins[0].count}</Text>*/}
                 </View>
               </View>
 
