@@ -8,13 +8,10 @@ import { handleDelete } from '@/utils/helpers';
 import { useCustomers } from "@/hooks/useCustomers.js";
 import { useEffect, useState  } from 'react';
 import { useRouter } from 'expo-router';
-import { useUser } from '@clerk/clerk-expo';
 
 export default function LogOrder() {
     const router = useRouter(); 
-
-    const { user } = useUser();
-    const { customers, isLoading, loadData, deleteCustomer } = useCustomers(user.id);
+    const { customers, isLoading, loadData, deleteCustomer } = useCustomers("user_30fchKVx5rA45v3VB84XXgJDOvP");
 
     const[filteredCustomers, setFilteredCustomers] = useState([]); // stored filtered query of customers here
     const[refreshing, setRefreshing] = useState(false);
@@ -46,7 +43,7 @@ export default function LogOrder() {
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
-                <FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers}/>
+                {/*<FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers}/>*/}
             </View>
             {/* Customers list */}
             <FlatList

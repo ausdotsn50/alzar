@@ -6,7 +6,7 @@ import { TextInput } from 'react-native';
 import { useEffect, useState } from "react";
 
 export const FilteredSearch = ({ dataToFilter, onFilter }) => {
-    const[searchQuery, setSearchQuery] = useState(""); // by default, an empty string
+    const[searchQuery, setSearchQuery] = useState("Water"); // by default, an empty string
 
     const handleSearch = (query) => {
         setSearchQuery(query); // searchQuery value changes via setSearchQuery

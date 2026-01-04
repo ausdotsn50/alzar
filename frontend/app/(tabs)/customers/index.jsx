@@ -16,8 +16,7 @@ import editCustomer from './editCustomer';
 export default function customer() {
     const router = useRouter();
 
-    const { user } = useUser();
-    const { customers, isLoading, loadData, deleteCustomer } = useCustomers(user.id);
+    const { customers, isLoading, loadData, deleteCustomer } = useCustomers("user_30fchKVx5rA45v3VB84XXgJDOvP");
     
     const[filteredCustomers, setfilteredCustomers] = useState([]);
     const[refreshing, setRefreshing] = useState(false);
