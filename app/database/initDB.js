@@ -1,10 +1,12 @@
 export async function initDB(db) {
     try {
+        await db.execAsync('PRAGMA foreign_keys = ON;');
+
         // Create Products
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL,
+                user_id TEXT NOT NULL DEFAULT 'local_user',
                 item TEXT NOT NULL,
                 base_price REAL NOT NULL
             );
@@ -14,7 +16,7 @@ export async function initDB(db) {
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS customers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL,
+                user_id TEXT NOT NULL DEFAULT 'local_user',
                 name TEXT NOT NULL,
                 address TEXT NOT NULL
             );
@@ -24,7 +26,7 @@ export async function initDB(db) {
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL,
+                user_id TEXT NOT NULL DEFAULT 'local_user',
                 product_id INTEGER NOT NULL,
                 customer_id INTEGER NOT NULL,
                 quantity INTEGER NOT NULL,
@@ -37,7 +39,7 @@ export async function initDB(db) {
         `);
         
         console.log("Database initialized successfully");
-    } catch(error) {
+    } catch (error) {
         console.error("Error initializing database:", error);
         throw error; 
     }

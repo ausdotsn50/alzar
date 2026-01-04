@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 
 export default function LogOrder() {
     const router = useRouter(); 
-    const { customers, isLoading, loadData, deleteCustomer } = useCustomers("user_30fchKVx5rA45v3VB84XXgJDOvP");
+    const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
 
     const[filteredCustomers, setFilteredCustomers] = useState([]); // stored filtered query of customers here
     const[refreshing, setRefreshing] = useState(false);
@@ -43,7 +43,7 @@ export default function LogOrder() {
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
-                {/*<FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers}/>*/}
+                {<FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers}/>}
             </View>
             {/* Customers list */}
             <FlatList

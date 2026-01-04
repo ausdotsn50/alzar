@@ -6,35 +6,37 @@ import { TextInput } from 'react-native';
 import { useEffect, useState } from "react";
 
 export const FilteredSearch = ({ dataToFilter, onFilter }) => {
-    const[searchQuery, setSearchQuery] = useState("Water"); // by default, an empty string
+    const [searchQuery, setSearchQuery] = useState(""); // Default to empty string
 
     const handleSearch = (query) => {
-        setSearchQuery(query); // searchQuery value changes via setSearchQuery
+        setSearchQuery(query);
         
-        const formattedQuery = query.toLowerCase(); // query in lower case
-        const filteredData = filter(dataToFilter, (data) => { 
-            return contains(data, formattedQuery)
-        })
-        // set to filtered update
-        onFilter(filteredData);
-    }
-
-    const contains = (cm, query) => { // customer compared to query
-        return cm.name?.toLowerCase().includes(query); // lower case to lower case comparison
-    }
-
-    // requires useEffect
-    useEffect(() => {
-        if(searchQuery.trim() === "") { // currently contained in searchQuery
-            onFilter(dataToFilter);
+        if (!query.trim()) {
+            onFilter(dataToFilter); // Reset to full list if empty
+            return;
         }
-    },[dataToFilter]);
+
+        const formattedQuery = query.toLowerCase();
+        const filteredData = filter(dataToFilter, (item) => { 
+            // Using item.name to match your 'contains' logic
+            return item.name?.toLowerCase().includes(formattedQuery);
+        });
+        
+        onFilter(filteredData);
+    };
+
+    // Ensure the list updates if the parent data changes (e.g., after a delete)
+    useEffect(() => {
+        handleSearch(searchQuery);
+    }, [dataToFilter]);
 
     return (
         <TextInput 
             autoCapitalize='none'
-            autoComplete={false}
-            autoCorrect={false}
+            // Change boolean false to string 'off' or remove if not needed
+            autoComplete="off" 
+            // autoCorrect accepts a boolean, but let's be explicit
+            autoCorrect={false} 
             placeholder="Search" 
             placeholderTextColor={COLORS.grnShd}
             clearButtonMode='always' 

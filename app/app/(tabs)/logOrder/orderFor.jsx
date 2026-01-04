@@ -9,14 +9,12 @@ import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from 'expo-router';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { useProducts } from "@/database/hooks/useProducts.js";
-import { useUser } from '@clerk/clerk-expo';
 import { useEffect, useState } from 'react';
 
 const orderFor = () => {
   const router = useRouter();
-  const { user } = useUser();
-  
-  const { products, isLoading, loadData } = useProducts(user.id); 
+
+  const { products, isLoading, loadData } = useProducts(); 
   const { customerId, customerName } = useLocalSearchParams(); // local params passed from logOrder/index.jsx
 
   // Values for form submission

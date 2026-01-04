@@ -2,7 +2,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 
-export function useOrders(userId) {
+export function useOrders() { // Removed userId argument
     const db = useSQLiteContext();
     const [orders, setOrders] = useState([]);
     const [summary, setSummary] = useState({
@@ -13,7 +13,7 @@ export function useOrders(userId) {
     });
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch all orders
+    // Fetch all orders (Removed userId filter)
     const fetchOrders = useCallback(async () => {
         try {
             const result = await db.getAllAsync(`
@@ -21,10 +21,9 @@ export function useOrders(userId) {
                     total_price, created_at FROM orders
                     JOIN customers ON orders.customer_id = customers.id
                     JOIN products ON orders.product_id = products.id
-                    WHERE orders.user_id = ?
                     ORDER BY created_at DESC
                     LIMIT 50
-            `, [userId]);
+            `);
             
             setOrders(result);
             return result;
@@ -32,38 +31,42 @@ export function useOrders(userId) {
             console.error("Error fetching orders:", error);
             throw error;
         }
-    }, [db, userId]);
+    }, [db]);
 
-    // Fetch summary for today
+    // Fetch summary for today (Removed userId filter)
     const fetchSummary = useCallback(async () => {
         try {
             const today = new Date().toISOString().split('T')[0];
 
+            // 1. Total Revenue
             const revResult = await db.getFirstAsync(`
                 SELECT COALESCE(SUM(total_price), 0) AS rev
                 FROM orders
-                WHERE user_id = ? AND DATE(created_at) = ?
-            `, [userId, today]);
+                WHERE DATE(created_at) = ?
+            `, [today]);
 
+            // 2. Delivery Count
             const deliverResult = await db.getFirstAsync(`
                 SELECT COUNT(*) AS count FROM orders 
-                WHERE type = 'deliver' AND user_id = ? AND DATE(created_at) = ?
-            `, [userId, today]);
+                WHERE type = 'deliver' AND DATE(created_at) = ?
+            `, [today]);
 
+            // 3. Walk-in Count
             const walkinResult = await db.getFirstAsync(`
                 SELECT COUNT(*) AS count FROM orders 
-                WHERE type = 'walk in' AND user_id = ? AND DATE(created_at) = ?
-            `, [userId, today]);
+                WHERE type = 'walk in' AND DATE(created_at) = ?
+            `, [today]);
 
+            // 4. Top Revenue Contributor
             const trcResult = await db.getFirstAsync(`
                 SELECT name, address, quantity, item, total_price AS rev
                 FROM orders
                     JOIN customers ON orders.customer_id = customers.id
                     JOIN products ON orders.product_id = products.id
-                WHERE orders.user_id = ? AND DATE(created_at) = ?
+                WHERE DATE(created_at) = ?
                 ORDER BY rev DESC
                 LIMIT 1
-            `, [userId, today]);
+            `, [today]);
 
             const summaryData = {
                 revenue: revResult?.rev || 0,
@@ -78,13 +81,11 @@ export function useOrders(userId) {
             console.error("Error fetching summary:", error);
             throw error;
         }
-    }, [db, userId]);
+    }, [db]);
 
     // Load both orders and summary
     const loadData = useCallback(async () => {
-        if (!userId) return;
         setIsLoading(true);
-
         try {
             await Promise.all([fetchOrders(), fetchSummary()]);
         } catch(error) {
@@ -93,25 +94,18 @@ export function useOrders(userId) {
         } finally {
             setIsLoading(false);
         }
-    }, [fetchOrders, fetchSummary, userId]);
+    }, [fetchOrders, fetchSummary]);
 
     // Delete an order
     const deleteOrder = useCallback(async (id) => {
         try {
-            if (isNaN(parseInt(id))) {
-                throw new Error("Invalid order ID");
-            }
+            if (isNaN(parseInt(id))) throw new Error("Invalid order ID");
 
-            const result = await db.runAsync(
-                'DELETE FROM orders WHERE id = ?', 
-                [id]
-            );
+            const result = await db.runAsync('DELETE FROM orders WHERE id = ?', [id]);
 
-            if (result.changes === 0) {
-                throw new Error("Order not found");
-            }
+            if (result.changes === 0) throw new Error("Order not found");
 
-            await loadData(); // Refresh data
+            await loadData();
             Alert.alert("Success", "Order deleted successfully");
         } catch(error) {
             console.error("Error deleting order:", error);
@@ -119,32 +113,24 @@ export function useOrders(userId) {
         }
     }, [db, loadData]);
 
-    // Create a new order
+    // Create a new order (Removed userId from params)
     const createOrder = useCallback(async (product_id, customer_id, quantity, type) => {
         try {
-            // Get product price
             const product = await db.getFirstAsync(
                 'SELECT base_price FROM products WHERE id = ?',
                 [product_id]
             );
 
-            if (!product) {
-                throw new Error("Product not found");
-            }
+            if (!product) throw new Error("Product not found");
 
             const price = parseFloat(product.base_price);
-            let total_price;
+            let total_price = (type === "deliver") ? (price + 5.00) * quantity : price * quantity;
 
-            if (type === "deliver") {
-                total_price = (price + 5.00) * quantity;
-            } else {
-                total_price = price * quantity;
-            }
-
+            // user_id is handled by the DEFAULT 'local_user' in your schema
             const result = await db.runAsync(`
-                INSERT INTO orders(user_id, product_id, customer_id, quantity, type, total_price, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
-            `, [userId, product_id, customer_id, quantity, type, total_price]);
+                INSERT INTO orders(product_id, customer_id, quantity, type, total_price, created_at)
+                VALUES (?, ?, ?, ?, ?, datetime('now'))
+            `, [product_id, customer_id, quantity, type, total_price]);
 
             await loadData();
             Alert.alert("Success", "Order created successfully");
@@ -154,7 +140,7 @@ export function useOrders(userId) {
             Alert.alert("Error", error.message);
             throw error;
         }
-    }, [db, userId, loadData]);
+    }, [db, loadData]);
 
     return { 
         orders, 
