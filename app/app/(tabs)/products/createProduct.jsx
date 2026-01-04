@@ -2,11 +2,9 @@ import { Alert } from "react-native";
 import { ProductForm } from '@/components/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { useUser } from '@clerk/clerk-expo';
 
 const createProduct = () => {
     const router = useRouter();
-    const { user } = useUser();
 
     // Values to be submitted
     const[itemValue, setItemValue] = useState(null);

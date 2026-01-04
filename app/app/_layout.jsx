@@ -1,17 +1,36 @@
-import SafeScreen from "@/components/SafeScreen"; // created comp
-
+import { useEffect, useState } from "react";
 import { Slot } from "expo-router";
+import { SQLiteProvider, openDatabaseAsync } from "expo-sqlite";
+import { initDB } from "@/database/initDB"; 
+import PageLoader from '@/components/PageLoader';
 
-// ClerkProvidercomponent provides session and user context to Clerk's hooks and components
-// wrap your entire app at the entry point with ClerkProvider to make authentication globally accessible
 export default function RootLayout() {
+  const [isDbReady, setIsDbReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // 1. Manually open and init the DB first
+        const db = await openDatabaseAsync("alzar.db");
+        await initDB(db);
+        
+        // 2. Signal that we are ready
+        setIsDbReady(true);
+      } catch (error) {
+        console.error("Database prep failed:", error);
+      }
+    }
+
+    prepare();
+  }, []); // Run only ONCE on mount
+
+  if (!isDbReady) {
+    return <PageLoader />;
+  }
+
   return (
-    /*
-      tokenCache:
-      - recommended way to store sensitive data, such as tokens, is by using expo-secure-store
-    */
-    <SafeScreen>
+    <SQLiteProvider databaseName="alzar.db">
       <Slot />
-    </SafeScreen>
-  );  
-};
+    </SQLiteProvider>
+  );
+}

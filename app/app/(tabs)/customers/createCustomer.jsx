@@ -1,12 +1,10 @@
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { useUser } from '@clerk/clerk-expo';
 import { CustomerForm } from '@/components/CustomerForm';
 
 const createCustomer = () => {
     const router = useRouter();
-    const { user } = useUser();
     
     const[nameValue, setNameValue] = useState(null);
     const[addressValue, setAddressValue] = useState(null);

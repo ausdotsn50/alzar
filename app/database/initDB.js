@@ -1,24 +1,28 @@
-import { SQLiteProvider } from "expo-sqlite";
-
-// SQLite syntax from 
-async function initDB(db) {
+export async function initDB(db) {
     try {
+        // Create Products
         await db.execAsync(`
-            CREATE TABLE IF NOT EXISTS products(
+            CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
                 item TEXT NOT NULL,
                 base_price REAL NOT NULL
             );
+        `);
 
-            CREATE TABLE IF NOT EXISTS customers(
+        // Create Customers
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS customers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
                 name TEXT NOT NULL,
                 address TEXT NOT NULL
             );
+        `);
 
-            CREATE TABLE IF NOT EXISTS orders(
+        // Create Orders
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
                 product_id INTEGER NOT NULL,
@@ -37,14 +41,4 @@ async function initDB(db) {
         console.error("Error initializing database:", error);
         throw error; 
     }
-}
-
-export default function App(){
-    return (
-        <SQLiteProvider
-            databaseName="alzar.db"
-            onInit={initDB}
-        >
-        </SQLiteProvider>
-    );
 }
