@@ -10,13 +10,11 @@ import { ProductsItem } from '@/components/ProductsItem';
 import { useEffect, useState } from 'react';
 import { useProducts } from "@/database/hooks/useProducts.js";
 import { useRouter } from 'expo-router';
-import { useUser } from '@clerk/clerk-expo';
 
 export default function Products() {
     const router = useRouter(); 
     
-    const { user } = useUser();
-    const { products, isLoading, loadData, deleteProduct } = useProducts(user.id); // custom products hook
+    const { products, isLoading, loadData, deleteProduct } = useProducts(); // custom products hook
     
     const[filteredProducts, setFilteredProducts] = useState([]); // used for search functionality
     const[refreshing, setRefreshing] = useState(false); // used for Flatlist on refresh
