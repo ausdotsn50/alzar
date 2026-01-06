@@ -2,12 +2,12 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 
-export function useProducts() { // Removed userId argument
+export function useProducts() {
     const db = useSQLiteContext();
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch all products (No filter needed)
+    // Fetch all products
     const fetchProducts = useCallback(async () => {
         try {
             const result = await db.getAllAsync(
@@ -33,7 +33,7 @@ export function useProducts() { // Removed userId argument
         }
     }, [fetchProducts]);
 
-    // Add new product (Removed user_id from INSERT)
+    // Add new product
     const addProduct = useCallback(async (item, base_price) => {
         try {
             if (!item || base_price === undefined) {
@@ -41,8 +41,6 @@ export function useProducts() { // Removed userId argument
                 return;
             }
 
-            // Note: If you didn't remove the user_id column from your DB schema yet,
-            // use 'local' or some default string here instead of removing the column.
             const result = await db.runAsync(
                 'INSERT INTO products(item, base_price) VALUES (?, ?)',
                 [item, base_price] 
@@ -58,7 +56,7 @@ export function useProducts() { // Removed userId argument
         }
     }, [db, loadData]);
 
-    // Update product (Stays largely the same, just removed userId dependency)
+    // Update product 
     const updateProduct = useCallback(async (id, item, base_price) => {
         try {
             if (isNaN(parseInt(id))) return;
@@ -88,7 +86,7 @@ export function useProducts() { // Removed userId argument
         }
     }, [db, loadData]);
 
-    // Delete product (Stays the same)
+    // Delete product
     const deleteProduct = useCallback(async (id) => {
         try {
             const result = await db.runAsync('DELETE FROM products WHERE id = ?', [id]);

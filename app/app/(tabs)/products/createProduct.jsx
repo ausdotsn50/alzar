@@ -32,7 +32,6 @@ const createProduct = () => {
             
             try {
                 await addProduct(itemValue.trim(), price);
-                // Success alert is already handled in the hook
                 handleReturn();
             } catch(error) {
                 console.error("Error creating product:", error);

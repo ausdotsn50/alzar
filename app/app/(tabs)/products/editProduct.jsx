@@ -1,11 +1,13 @@
-import { Alert } from 'react-native';
 import { ProductForm } from '@/components/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+import { useProducts } from '@/database/hooks/useProducts';
 
 const editProduct = () => {
   const router = useRouter();
+
+  const { updateProduct } = useProducts(); 
 
   const[subLoading, setSubLoading] = useState(false);
   const[formSubError, setFormSubError] = useState("");
@@ -31,26 +33,13 @@ const editProduct = () => {
       setSubLoading(true);
       
       try {
-        const response = await fetch(`${API_URL}/products`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: productId,
-            item: newItemValue.trim(),
-            base_price: price,
-          }),
-        });
-        
-        if (!response.ok) throw new Error("Failed to update product");
-        Alert.alert("Success", "Product updated successfully");      
+        await updateProduct(productId, newItemValue, newPriceValue);
+        handleReturn();
       } catch (error) {
-        console.error("Error updating product: ", error);
-        Alert.alert("An error occurred", error.message);
+        console.error("Error updating product:", error);
+        setFormSubError(error.message);
       } finally {
         setSubLoading(false);
-        handleReturn();
       }
     }
   }

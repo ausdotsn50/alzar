@@ -7,7 +7,7 @@ export function useCustomers() { // Removed userId argument
     const [customers, setCustomers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch all customers (No filter needed)
+    // Fetch all customers
     const fetchCustomers = useCallback(async () => {
         try {
             const result = await db.getAllAsync(
@@ -33,7 +33,7 @@ export function useCustomers() { // Removed userId argument
         }
     }, [fetchCustomers]);
 
-    // Add new customer (user_id handled by DB Default)
+    // Add new customer
     const addCustomer = useCallback(async (name, address) => {
         try {
             if (!name || !address) {
@@ -48,7 +48,6 @@ export function useCustomers() { // Removed userId argument
             
             await loadData();
             Alert.alert("Success", "Customer added successfully");
-            return result.lastInsertRowid;
         } catch(error) {
             console.error("Error adding customer:", error);
             Alert.alert("Error", error.message);
@@ -89,8 +88,7 @@ export function useCustomers() { // Removed userId argument
     // Delete customer
     const deleteCustomer = useCallback(async (id) => {
         try {
-            // Note: Because of ON DELETE CASCADE in your orders table,
-            // deleting a customer will also delete their orders.
+            // Note: [ON DELETE CASCADE] in orders table effect - deleting a customer will also delete their orders.
             const result = await db.runAsync('DELETE FROM customers WHERE id = ?', [id]);
             await loadData();
             if (result.changes > 0) Alert.alert("Success", "Customer deleted");
