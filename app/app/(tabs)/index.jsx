@@ -10,9 +10,7 @@ import { useOrders } from "@/database/hooks/useOrders.js";
 import { handleDelete } from "@/utils/helpers";
 
 export default function Home() {
-  // Hooks
-  // Removed
-  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders("user_30fchKVx5rA45v3VB84XXgJDOvP")
+  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders()
 
   // Formatting values
   const currentDate = new Date(); // date today
@@ -24,7 +22,7 @@ export default function Home() {
   const day = currentDate.toLocaleDateString(undefined, options2);
 
   const[refreshing, setRefreshing] = useState(false);
-
+ 
   // enabling asynchronous, promise-based behavior
   const onRefresh = async() => {
     setRefreshing(true);
@@ -38,7 +36,7 @@ export default function Home() {
 
   if(isLoading) return <PageLoader />;
   
-  //const topItem = summary.topRevContri.quantity > 1 ? summary.topRevContri.item + "s" :  summary.topRevContri.item;
+  // const topItem = summary.topRevContri.quantity > 1 ? summary.topRevContri.item + "s" :  summary.topRevContri.item;
 
   return (
     <View style={genStyles.container}>

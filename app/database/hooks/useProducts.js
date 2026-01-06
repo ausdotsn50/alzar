@@ -44,13 +44,13 @@ export function useProducts() { // Removed userId argument
             // Note: If you didn't remove the user_id column from your DB schema yet,
             // use 'local' or some default string here instead of removing the column.
             const result = await db.runAsync(
-                'INSERT INTO products(user_id, item, base_price) VALUES (?, ?, ?)',
-                ['default_user', item, base_price] 
+                'INSERT INTO products(item, base_price) VALUES (?, ?)',
+                [item, base_price] 
             );
             
             await loadData();
             Alert.alert("Success", "Product added successfully");
-            return result.lastInsertRowid;
+            return result.lastInsertRowId;
         } catch(error) {
             console.error("Error adding product:", error);
             Alert.alert("Error", error.message);

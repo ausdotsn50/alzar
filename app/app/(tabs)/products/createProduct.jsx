@@ -1,31 +1,24 @@
-import { Alert } from "react-native";
 import { ProductForm } from '@/components/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useProducts } from '@/database/hooks/useProducts';
 
 const createProduct = () => {
+    const { addProduct } = useProducts(); 
     const router = useRouter();
 
     // Values to be submitted
-    const[itemValue, setItemValue] = useState(null);
-    const[priceValue, setPriceValue] = useState(null);
+    const [itemValue, setItemValue] = useState("");
+    const [priceValue, setPriceValue] = useState("");
 
-    const[formSubError, setFormSubError] = useState(""); // error msg display for form submission
-    const[subLoading, setSubLoading] = useState(false); // submission of form loading
+    const [formSubError, setFormSubError] = useState(""); // error msg display for form submission
+    const [subLoading, setSubLoading] = useState(false); // submission of form loading
     
-    // Functions to be used
+    // Uses expo router to navigate to a prev screen layer
     const handleReturn = () => {
-        if(router.canGoBack()) router.back()
+        if(router.canGoBack()) router.back();
     }
 
-    /* Falsy values return
-        - false
-        - 0 (number)
-        - empty string
-        - null
-        - undefined 
-        - NaN
-    */
     const submitForm = async() => {
         const price = Number(priceValue); // for isNaN checker
 
@@ -35,27 +28,17 @@ const createProduct = () => {
             setFormSubError("Positive numeric values only");
         } else {
             setSubLoading(true);
+            setFormSubError(""); // Clear any previous errors
+            
             try {
-                const response = await fetch(`${API_URL}/products`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        userId: user.id,
-                        item: itemValue.trim(),
-                        base_price: price,
-                    }),
-                });
-                    if(!response.ok) throw new Error("Failed to create product");
-                    Alert.alert("Success", "Product created succesfully");
-
+                await addProduct(itemValue.trim(), price);
+                // Success alert is already handled in the hook
+                handleReturn();
             } catch(error) {
-                console.error("Error creating product: ", error);
-                Alert.alert("An error occurred", error.message);
+                console.error("Error creating product:", error);
+                setFormSubError(error.message);
             } finally {
                 setSubLoading(false);
-                handleReturn();
             }
         }
     }
@@ -80,5 +63,4 @@ const createProduct = () => {
     );
 }
 
-// on submit order: use order route to create a new order for
 export default createProduct;
