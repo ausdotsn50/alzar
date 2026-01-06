@@ -126,7 +126,6 @@ export function useOrders() { // Removed userId argument
             const price = parseFloat(product.base_price);
             let total_price = (type === "deliver") ? (price + 5.00) * quantity : price * quantity;
 
-            // user_id is handled by the DEFAULT 'local_user' in your schema
             const result = await db.runAsync(`
                 INSERT INTO orders(product_id, customer_id, quantity, type, total_price, created_at)
                 VALUES (?, ?, ?, ?, ?, datetime('now'))

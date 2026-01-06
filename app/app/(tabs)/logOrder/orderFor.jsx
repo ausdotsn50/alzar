@@ -8,12 +8,14 @@ import { genStyles } from '@/assets/styles/general.styles.js';
 import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from 'expo-router';
 import { CustomDropdown } from '@/components/CustomDropdown';
-import { useProducts } from "@/database/hooks/useProducts.js";
+import { useProducts } from "@/database/hooks/useProducts";
 import { useEffect, useState } from 'react';
+import { useOrders } from '@/database/hooks/useOrders';
 
 const orderFor = () => {
   const router = useRouter();
 
+  const { createOrder } = useOrders();
   const { products, isLoading, loadData } = useProducts(); 
   const { customerId, customerName } = useLocalSearchParams(); // local params passed from logOrder/index.jsx
 
@@ -65,27 +67,13 @@ const orderFor = () => {
       // If validation has been passed
       setSubLoading(true);
       try {
-        const response = await fetch(`${API_URL}/orders`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-              userId : user.id,
-              product_id : productValue,
-              customer_id : customerId,
-              quantity: pQuantValue,
-              type: pTypeValue,
-          }),
-      });
-          if (!response.ok) throw new Error("Failed to create order"); // note on delete + create
-          Alert.alert("Success", "Order created successfully");
+        await createOrder(productValue, customerId, pQuantValue, pTypeValue)
+        handleReturn();
       } catch(error) {
         console.error("Error creating order: ", error); 
         Alert.alert("An error occurred", error.message);
       } finally {
         setSubLoading(false);
-        handleReturn();
       }
     }
   }
@@ -130,7 +118,7 @@ const orderFor = () => {
           />
           <TextInput 
               autoCapitalize='none'
-              autoComplete={false}
+              autoComplete="off"
               autoCorrect={false}
               clearButtonMode='always' 
               keyboardType="number-pad"
