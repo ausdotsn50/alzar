@@ -51,7 +51,7 @@ export default function Products() {
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
-                <FilteredSearch dataToFilter={products} onFilter={setFilteredProducts}/>
+                <FilteredSearch dataToFilter={products} onFilter={setFilteredProducts} searchKey="item"/>
             </View>
             {/* Add button */}
             <View style={[genStyles.itemCard, { marginHorizontal : 20 }]}>

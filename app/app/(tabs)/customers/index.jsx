@@ -10,7 +10,6 @@ import { handleDelete } from "@/utils/helpers";
 import { useCustomers } from "@/database/hooks/useCustomers.js";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import editCustomer from './editCustomer';
 
 export default function customer() {
     const router = useRouter();
@@ -52,7 +51,7 @@ export default function customer() {
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
-                <FilteredSearch dataToFilter={customers} onFilter={setfilteredCustomers}/>
+                <FilteredSearch dataToFilter={customers} onFilter={setfilteredCustomers} searchKey="name"/>
             </View>
             {/* Add button */}
             <View style={[genStyles.itemCard, { marginHorizontal : 20 }]}>

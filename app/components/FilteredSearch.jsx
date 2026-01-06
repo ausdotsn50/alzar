@@ -5,7 +5,7 @@ import { genStyles } from '@/assets/styles/general.styles.js';
 import { TextInput } from 'react-native';
 import { useEffect, useState } from "react";
 
-export const FilteredSearch = ({ dataToFilter, onFilter }) => {
+export const FilteredSearch = ({ dataToFilter, onFilter, searchKey }) => {
     const [searchQuery, setSearchQuery] = useState(""); // Default to empty string
 
     const handleSearch = (query) => {
@@ -19,7 +19,8 @@ export const FilteredSearch = ({ dataToFilter, onFilter }) => {
         const formattedQuery = query.toLowerCase();
         const filteredData = filter(dataToFilter, (item) => { 
             // Using item.name to match your 'contains' logic
-            return item.name?.toLowerCase().includes(formattedQuery);
+            const valueToSearch = item[searchKey]?.toLowerCase() ?? "";
+            return valueToSearch.includes(formattedQuery);
         });
         
         onFilter(filteredData);
@@ -33,9 +34,7 @@ export const FilteredSearch = ({ dataToFilter, onFilter }) => {
     return (
         <TextInput 
             autoCapitalize='none'
-            // Change boolean false to string 'off' or remove if not needed
             autoComplete="off" 
-            // autoCorrect accepts a boolean, but let's be explicit
             autoCorrect={false} 
             placeholder="Search" 
             placeholderTextColor={COLORS.grnShd}
