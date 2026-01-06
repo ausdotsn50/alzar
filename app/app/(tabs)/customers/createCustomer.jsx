@@ -2,10 +2,13 @@ import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { CustomerForm } from '@/components/CustomerForm';
+import { useCustomers } from '@/database/hooks/useCustomers';
 
 const createCustomer = () => {
     const router = useRouter();
     
+    const { addCustomer } = useCustomers()
+
     const[nameValue, setNameValue] = useState(null);
     const[addressValue, setAddressValue] = useState(null);
 
@@ -21,26 +24,16 @@ const createCustomer = () => {
             setFormSubError("All fields are required");
         } else {
             setSubLoading(true);
+            setFormSubError("");
+
             try {
-                const response = await fetch(`${API_URL}/customers`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        userId: user.id,
-                        name: nameValue,
-                        address: addressValue,
-                    }),
-                });
-                    if(!response.ok) throw new Error("Failed to create customer");
-                    Alert.alert("Success", "Customer created succesfully");
+                await addCustomer(nameValue, addressValue);
+                handleReturn();
             } catch(error) {
-                console.error("Error creating customer: ", error);
-                Alert.alert("An error occurred", error.message);
+                console.error("Error creating customer:", error);
+                setFormSubError(error.message);
             } finally {
                 setSubLoading(false);
-                handleReturn();
             }
         }
     }

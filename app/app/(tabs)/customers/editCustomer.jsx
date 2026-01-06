@@ -1,11 +1,13 @@
-import { Alert } from 'react-native';
 import { CustomerForm } from '@/components/CustomerForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+import { useCustomers } from '@/database/hooks/useCustomers';
 
 const editCustomer = () => {
   const router = useRouter();
+
+  const { updateCustomer } = useCustomers();
 
   const[subLoading, setSubLoading] = useState(false);
   const[formSubError, setFormSubError] = useState("");
@@ -27,26 +29,13 @@ const editCustomer = () => {
       setSubLoading(true);
 
       try {
-        const response = await fetch(`${API_URL}/customers`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: customerId,
-            name: newNameValue.trim(),
-            address: newAddressValue.trim(),
-          }),
-        });
-        
-        if (!response.ok) throw new Error("Failed to update customer");
-        Alert.alert("Success", "Customer updated successfully");      
+        await updateCustomer(customerId, newNameValue, newAddressValue);
+        handleReturn();
       } catch (error) {
-        console.error("Error updating customer: ", error);
-        Alert.alert("An error occurred", error.message);
+        console.error("Error updating customer:", error);
+        setFormSubError(error.message);
       } finally {
         setSubLoading(false);
-        handleReturn();
       }
     }
   }

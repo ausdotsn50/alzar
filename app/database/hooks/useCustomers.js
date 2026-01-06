@@ -48,6 +48,7 @@ export function useCustomers() { // Removed userId argument
             
             await loadData();
             Alert.alert("Success", "Customer added successfully");
+            return result.lastInsertRowId;
         } catch(error) {
             console.error("Error adding customer:", error);
             Alert.alert("Error", error.message);
