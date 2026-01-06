@@ -113,7 +113,7 @@ export function useOrders() { // Removed userId argument
         }
     }, [db, loadData]);
 
-    // Create a new order (Removed userId from params)
+    // Create a new order
     const createOrder = useCallback(async (product_id, customer_id, quantity, type) => {
         try {
             const product = await db.getFirstAsync(

@@ -6,11 +6,11 @@ import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
 import { useEffect, useState } from 'react';
-import { useOrders } from "@/database/hooks/useOrders.js";
+import { useOrders } from "@/database/hooks/useOrders";
 import { handleDelete } from "@/utils/helpers";
 
 export default function Home() {
-  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders()
+  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
 
   // Formatting values
   const currentDate = new Date(); // date today
@@ -36,7 +36,10 @@ export default function Home() {
 
   if(isLoading) return <PageLoader />;
   
-  // const topItem = summary.topRevContri.quantity > 1 ? summary.topRevContri.item + "s" :  summary.topRevContri.item;
+  const topRevContri = summary.topRevContri;
+  const topItemName = topRevContri 
+    ? (topRevContri.quantity > 1 ? `${topRevContri.item}s` : topRevContri.item)
+    : "";
 
   return (
     <View style={genStyles.container}>
@@ -74,37 +77,37 @@ export default function Home() {
             {/* L and R report divisions */}
             <View style={styles.report}>
               
-              {/*<View>
-                {summary.revenue[0].rev ? (
-                  <Text style={styles.revenueAmount}>Php {parseFloat(summary.revenue[0].rev).toFixed(2)}</Text>
+              {<View>
+                {summary.revenue ? (
+                  <Text style={styles.revenueAmount}>Php {parseFloat(summary.revenue).toFixed(2)}</Text>
                 ) : (
                   <Text style={styles.revenueAmount}>NA</Text>
                 )}
                 
                 <Text style={styles.topRevenueTitle}>Top Revenue Contributor</Text>
-                
-                {summary.topRevContri.name ? (
-                  <Text style={styles.topRevenueText}>
-                    {summary.topRevContri.name} | {summary.topRevContri.address} Area
-                  </Text>
+                {topRevContri ? (
+                  <>
+                    <Text style={styles.topRevenueText}>
+                      {topRevContri.name} | {topRevContri.address} Area
+                    </Text>
+                    <Text style={styles.topRevenueText}>
+                      {topRevContri.quantity} {topItemName}
+                    </Text>
+                  </>
                 ) : (
-                  <Text style={styles.topRevenueText}>
-                    NA
-                  </Text>
+                  <Text style={styles.topRevenueText}>NA</Text>
                 )}
-
-                <Text style={styles.topRevenueText}>{summary.topRevContri.quantity} {topItem}</Text>
-              </View>*/}
+              </View>}
 
               <View>
                 <View style={styles.reportMiniCard}>
                   <Text style={styles.delivers}>Delivers</Text>
-                  {/*<Text style={styles.delivers}>{summary.delivers[0].count}</Text>*/}
+                  <Text style={styles.delivers}>{summary.delivers}</Text>
                 </View>
 
                 <View style={styles.reportMiniCard}>
                   <Text style={styles.walkins}>Walk-Ins</Text>
-                  {/*<Text style={styles.walkins}>{summary.walkins[0].count}</Text>*/}
+                  <Text style={styles.walkins}>{summary.walkins}</Text>
                 </View>
               </View>
 
