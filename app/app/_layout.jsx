@@ -2,6 +2,7 @@ import { SQLiteProvider } from "expo-sqlite";
 import { Slot } from "expo-router";
 import { initDB } from "@/database/initDB"; 
 import PageLoader from '@/components/PageLoader';
+import SafeScreen from '@/components/SafeScreen'
 
 export default function RootLayout() {
   return (
@@ -10,7 +11,9 @@ export default function RootLayout() {
       onInit={initDB}
       loadingUi={<PageLoader />} 
     >
-      <Slot />
+      <SafeScreen>
+        <Slot />
+      </SafeScreen>
     </SQLiteProvider>
   );
 }

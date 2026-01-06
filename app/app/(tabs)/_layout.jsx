@@ -18,9 +18,6 @@ export default function TabLayout() {
 
         // Cp from react navigation doc
         tabBarStyle: { position: 'absolute' },
-        tabBarBackground: () => (
-          <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
-        ),
       }}
     >
       <Tabs.Screen
