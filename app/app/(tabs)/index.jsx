@@ -59,6 +59,7 @@ export default function Home() {
             <View style={styles.welcomeContainer}>
               <Text style={styles.welcomeText}>Welcome,</Text>
               {/*<Text style={styles.usernameText}>{user?.emailAddresses[0]?.emailAddress.split("@")[0]}</Text>*/}
+              <Text style={styles.usernameText}>Manager</Text>
             </View>
 
           </View>

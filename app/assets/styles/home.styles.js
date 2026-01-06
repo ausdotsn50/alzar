@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     marginBottom: 2,
   },
   usernameText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "600",
     color: COLORS.text,
   },
