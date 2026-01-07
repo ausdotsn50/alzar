@@ -48,7 +48,8 @@ To get a local copy of this project up and running on your emulator or device, f
 * **Package Manager:** [Node.js](https://nodejs.org/) and npm installed on your machine.
 
 ## 🛠️ Installation
-**[TIP]** Quick Start: To test the app immediately without setting up a development environment, download the latest APK from the Releases section and install it directly on your Android device. (Note: iOS is currently only supported via the development server).
+**Quick Start:** To test the app immediately without setting up a development environment, download the latest APK from the Releases section and install it directly on your Android device. (Note: iOS is currently only supported via the development server).
+
 1. **Clone the repository:**
 ```bash
 git clone https://github.com/ausdotsn50/alzar.git
