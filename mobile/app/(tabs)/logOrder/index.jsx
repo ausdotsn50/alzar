@@ -38,7 +38,7 @@ export default function LogOrder() {
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
-                <FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers}/>
+                <FilteredSearch dataToFilter={customers} onFilter={setFilteredCustomers} searchKey="name"/>
             </View>
             <FlatList
                 style={genStyles.itemsList}

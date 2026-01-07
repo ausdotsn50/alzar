@@ -60,9 +60,11 @@ export default function Home() {
           </View>
 
           {/* Right side of header */}
+          {/*
           <View style={styles.headerRight}>
             <SignOutButton />
           </View>
+          */}
 
         </View>
 
