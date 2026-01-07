@@ -4,7 +4,7 @@
     "slug": "alzar",
     "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/waterDispenserJug.png",
+    "icon": "./assets/images/ios-light.png",
     "scheme": "alzar",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/waterDispenserBottle.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -26,27 +26,15 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/waterDispenserBottle.png"
+      "favicon": "./assets/images/adaptive-icon.png"
     },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/waterDispenserJug.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "6bc87af7-8dcd-41ad-bf3c-5b09969aa0ec"
+        "projectId": "583f6ea8-ef3a-453a-aa84-21243d74a8a9"
       }
     }
   }

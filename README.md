@@ -1,100 +1,85 @@
-# Alzar
-**Alzar** is an iOS-based POS (Point of Sale) software specifically designed for water refilling station businesses.
+<div align= "center">
+<hr>
+</div>
 
-## Video Demo
-*[Click to watch the video demo](https://youtu.be/EczZWA_L1Ro)*
+<div align="center">
+<a href="https://github.com/ausdotsn50/alzar" target="blank">
+<img src="mobile/assets/images/waterDispenserBottle.png" width="150" alt="Logo" />
+</a>
 
-## Description
-Alzar includes user authentication via sign-up and sign-in systems. Upon logging in, users are redirected to the **Home** tab. Alongside this **Home** tab are three additional tabs: **Log Order**, **Products**, and **Customers**.
+<h2> Alzar </h2>
 
-### Home
-* Displays a summary of today’s orders
-  * Summary includes current date, total revenue, top revenue contributor, and deliver/walk-in count
-* Lists the 50 most recent orders in descending order
-* Includes feature to delete orders
+[![Expo](https://img.shields.io/badge/Expo-000020?logo=expo&logoColor=fff)](#)
+[![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)](#)
 
-### Log Order
-* Allows station managers to log customer orders
+</div>
 
-### Products
-* Displays all products sold
-* Includes features to add, edit, and delete products
+## 💡 Overview
+Alzar is a dedicated mobile Point of Sale (POS) application designed to streamline the daily operations of water refilling station businesses. It focuses on easy order logging and management, providing business owners with an immediate overview of their daily performance. It's design is based on the known operation of water refilling stations businesses in the developer's local - Allen, Northern Samar.
 
-### Customers
-* Displays a list of all registered customers
-* Includes features to add, edit, and delete customer information
+Originally developed as an iOS-cloud-sync app. However, having not been pushed in Apple Store or TestFlight, Alzar has been refactored to use local storage (SQLite) giving water station managers full control of their data in their local phones
 
-## Getting Started
-### Installation
-  *Instructions placeholder*
+## ✨ Features
+- **Business Dashboard:** Real-time summary of today’s revenue, top contributors, and delivery vs. walk-in counts.
 
-## File Components
+- **Order Management:** Chronological logging of the 50 most recent orders with quick-delete functionality.
 
-### Backend
+- **Product Catalog:** Manage your water product offerings with full Create, Read, Update, and Delete (CRUD) capabilities.
 
-**`/src`**
-- **`config/`**
-  Contains configuration files for the backend, including:
-  - CRON job
-  - Database connection
-  - Rate limiting and caching
+- **Customer Directory:** Maintain a database of registered customers for faster transaction processing.
 
-- **`controllers/`**
-  Contains a reusable function for handling delete by id route logic.
+- **Offline First:** Powered by SQLite, allowing the app to function perfectly without an active internet connection.
 
-- **`middleware/`**
-  Contains the rate limiter used as middleware.
+- **Responsive Mobile UI:** Optimized for mobile devices using React Native and Expo.
 
-- **`routes/`**
-  Includes routes for customers, orders, and products.
-  SQL queries are used for GET, POST, PUT, and DELETE operations.
+## 📖 Sources and Acknowledgements
 
-- **`server.js`**
-  The main entry point for the backend server.
+* **Application Inspiration:** [Wallet – Expense Tracker by Codesistency](https://www.youtube.com/watch?v=vk13GJi4Vd0)
+* **Image Assets:** UI assets generated via ChatGPT.
+* **AI Collaboration:** Utilized Gemini 3 and Claude 4.5 Sonnet for codebase refactoring and migration from cloud-based to on-device SQLite storage.
 
----
+## 📦 Getting Started
+To get a local copy of this project up and running on your emulator or device, follow these steps.
 
-### Frontend
+### 🚀 Prerequisites
 
-**`/app`**
-- **`auth/`**
-  Contains frontend logic and styles for authentication pages:
-  - Sign In
-  - Sign Up
+* **Development Environment:** Any Android/iOS Emulator
+* **Physical Device Testing:** [Expo Go](https://expo.dev/go) app installed on your mobile device (optional).
+* **Package Manager:** [Node.js](https://nodejs.org/) and npm installed on your machine.
 
-- **`tabs/`**
-  Contains the main tab pages:
-  - Home
-  - Log Order
-  - Products
-  - Customers
+## 🛠️ Installation
 
-**`/assets`**
-Contains all assets used in the application, such as:
-- Fonts
-- Images
-- Styles
+1. **Clone the repository:**
+```bash
+git clone https://github.com/ausdotsn50/alzar.git
+cd mobile
+```
 
-**`/components`**
-Contains all reusable custom JSX components for the application.
 
-**`/constants`**
-Contains application-wide constants.
+2. **Install dependencies:**
+```bash
+npm install
+```
 
-**`/hook`**
-Contains custom React hooks for routing-related logic.
 
-## Tech Stack
-- Mobile Platform: iOS (built with Expo + React Native)
-- Backend: Node.js with Express
-- Database: Neon (PostgreSQL)
-- Authentication: Clerk
-- Hosting: Render
-- API Testing: Postman
-- Rate Limiting & Caching: Redis
-- Version Control: Git & GitHub
+3. **Start the development server:**
+```bash
+npx expo start
+```
 
-## Acknowledgements
-* Application Inspo: [Wallet – Expense Tracker by Codesistency](https://www.youtube.com/watch?v=vk13GJi4Vd0&list=LL&index=4&t=125s)
-* Image Assets: Generated by [ChatGPT](https://chatgpt.com/)
+4. **Run on Emulator:**
+Press **`a`** in the terminal to open the project on an Android Emulator, or **`i`** to run on an iOS Simulator. Alternatively, scan the QR code with the Expo Go app. **Note:** Your physical device must be connected to the same Wi-Fi network as your development server for the app to load.
 
+## 🤝 Contributing
+
+Contributions are welcome to help make Alzar better for water refilling station businesses.
+
+1. **Fork the repository.**
+2. **Create a new branch** (`git checkout -b feature/AmazingFeature`).
+3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`).
+4. **Push to the branch** (`git push origin feature/AmazingFeature`).
+5. **Open a pull request**.
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
