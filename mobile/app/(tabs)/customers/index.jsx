@@ -8,16 +8,15 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-na
 import { genStyles } from '@/assets/styles/general.styles.js';
 import { handleDelete } from "@/utils/helpers";
 import { useCustomers } from "@/database/hooks/useCustomers.js";
-import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function customer() {
     const router = useRouter();
 
-    const { customers, isLoading, loadData, deleteCustomer } = useCustomers("user_30fchKVx5rA45v3VB84XXgJDOvP");
+    const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
     
     const[filteredCustomers, setfilteredCustomers] = useState([]);
-    const[refreshing, setRefreshing] = useState(false);
     
     const createCustomer = () => {
         // console.log("Creating customer...");
@@ -35,16 +34,12 @@ export default function customer() {
         })
     }
 
-    const onRefresh = async() => {
-        setRefreshing(true);
-        await loadData() // loading the data from scratch
-        setRefreshing(false);
-    }
-
     // Call customers hook
-    useEffect(() => {
-        loadData()
-    }, [loadData]);
+    useFocusEffect(
+        useCallback(() => {
+            loadData();
+        }, [loadData])
+    );
 
     if(isLoading) return <PageLoader />;
 
@@ -73,9 +68,6 @@ export default function customer() {
                     <View style={genStyles.emptyState}>
                     <Text style={genStyles.emptyStateTitle}>No customers to display yet</Text>
                     </View>
-                }
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                 }
             />
         </View>

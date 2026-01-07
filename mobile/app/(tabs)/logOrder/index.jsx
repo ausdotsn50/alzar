@@ -6,21 +6,14 @@ import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { genStyles } from '@/assets/styles/general.styles.js';
 import { handleDelete } from '@/utils/helpers';
 import { useCustomers } from "@/database/hooks/useCustomers.js";
-import { useEffect, useState  } from 'react';
-import { useRouter } from 'expo-router';
+import { useCallback, useState  } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function LogOrder() {
     const router = useRouter(); 
     const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
 
     const[filteredCustomers, setFilteredCustomers] = useState([]); // stored filtered query of customers here
-    const[refreshing, setRefreshing] = useState(false);
-
-    const onRefresh = async() => {
-        setRefreshing(true);
-        await loadData() // loading the data from scratch
-        setRefreshing(false);
-    }
 
     // passing the ff. data
     const createOrder = (id, name) => {
@@ -34,9 +27,11 @@ export default function LogOrder() {
     };
     
     // Call customers hook
-    useEffect(() => {
-        loadData()
-    }, [loadData]);
+    useFocusEffect(
+        useCallback(() => {
+            loadData();
+        }, [loadData])
+    );
 
     if(isLoading) return <PageLoader />;
 
@@ -59,9 +54,6 @@ export default function LogOrder() {
                     <View style={genStyles.emptyState}>
                     <Text style={genStyles.emptyStateTitle}>No customers to display yet</Text>
                     </View>
-                }
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                 }
             />
         </View>

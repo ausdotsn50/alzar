@@ -7,9 +7,9 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-na
 import { genStyles } from '@/assets/styles/general.styles.js';
 import { handleDelete } from "@/utils/helpers";
 import { ProductsItem } from '@/components/ProductsItem';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useProducts } from "@/database/hooks/useProducts.js";
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function Products() {
     const router = useRouter(); 
@@ -17,7 +17,6 @@ export default function Products() {
     const { products, isLoading, loadData, deleteProduct } = useProducts(); // custom products hook
     
     const[filteredProducts, setFilteredProducts] = useState([]); // used for search functionality
-    const[refreshing, setRefreshing] = useState(false); // used for Flatlist on refresh
 
     const createProduct = () => {
         // console.log("Creating product...");
@@ -35,16 +34,12 @@ export default function Products() {
         });
     };
 
-    const onRefresh = async() => {
-        setRefreshing(true);
-        await loadData() // loading the data from scratch
-        setRefreshing(false);
-    } 
-
     // Call customers hook
-    useEffect(() => {
-        loadData()
-    }, [loadData]);
+    useFocusEffect(
+        useCallback(() => {
+            loadData();
+        }, [loadData])
+    );
 
     if(isLoading) return <PageLoader />;
 
@@ -72,9 +67,6 @@ export default function Products() {
                     <View style={genStyles.emptyState}>
                     <Text style={genStyles.emptyStateTitle}>No products to display yet</Text>
                     </View>
-                }
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                 }
             />
             

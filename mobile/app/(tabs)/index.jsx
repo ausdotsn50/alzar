@@ -5,9 +5,10 @@ import { OrdersItem } from "../../components/OrdersItem";
 import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from "@/database/hooks/useOrders";
 import { handleDelete } from "@/utils/helpers";
+useFocusEffect
 
 export default function Home() {
   const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
@@ -21,18 +22,12 @@ export default function Home() {
   const formattedDate = currentDate.toLocaleDateString(undefined, options1);
   const day = currentDate.toLocaleDateString(undefined, options2);
 
-  const[refreshing, setRefreshing] = useState(false);
- 
-  // enabling asynchronous, promise-based behavior
-  const onRefresh = async() => {
-    setRefreshing(true);
-    await loadData() // loading the data from scratch
-    setRefreshing(false);
-  }
-  
-  useEffect(() => {
-    loadData()
-  }, [loadData]);
+  // Call customers hook
+  useFocusEffect(
+      useCallback(() => {
+          loadData();
+      }, [loadData])
+  );
 
   if(isLoading) return <PageLoader />;
   
@@ -135,9 +130,6 @@ export default function Home() {
           <View style={genStyles.emptyState}>
             <Text style={genStyles.emptyStateTitle}>No orders to display yet</Text>
           </View>
-        }
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
         }
       />
     </View>
