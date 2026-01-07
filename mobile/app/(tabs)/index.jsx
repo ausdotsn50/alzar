@@ -5,10 +5,10 @@ import { OrdersItem } from "../../components/OrdersItem";
 import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useOrders } from "@/database/hooks/useOrders";
 import { handleDelete } from "@/utils/helpers";
-useFocusEffect
+import { useFocusEffect } from 'expo-router';
 
 export default function Home() {
   const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
