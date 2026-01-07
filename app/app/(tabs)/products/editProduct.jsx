@@ -1,0 +1,68 @@
+import { ProductForm } from '@/components/ProductForm';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { useProducts } from '@/database/hooks/useProducts';
+
+const editProduct = () => {
+  const router = useRouter();
+
+  const { updateProduct } = useProducts(); 
+
+  const[subLoading, setSubLoading] = useState(false);
+  const[formSubError, setFormSubError] = useState("");
+
+  const { productId, productItem, productPrice } = useLocalSearchParams();
+
+  const[newItemValue, setNewItemValue] = useState(productItem);
+  const[newPriceValue, setNewPriceValue] = useState(productPrice);
+  
+  const handleReturn = () => {
+    if(router.canGoBack()) router.back()
+  }
+
+  const submitForm = async () => {
+    const price = Number(newPriceValue);
+
+    // If both are blank or just whitespace
+    if (!newItemValue && !newPriceValue) {
+      setFormSubError("Fill up at least one field");
+    } else if(newPriceValue && (isNaN(price) || price <= 0)) {
+      setFormSubError("Positive numeric values only");
+    } else {
+      setSubLoading(true);
+      
+      try {
+        await updateProduct(productId, newItemValue, newPriceValue);
+        handleReturn();
+      } catch (error) {
+        console.error("Error updating product:", error);
+        setFormSubError(error.message);
+      } finally {
+        setSubLoading(false);
+      }
+    }
+  }
+
+
+  return (
+    <ProductForm
+      formTitle="Modify Product"
+      subLoading={subLoading}
+      submitForm={submitForm}
+      toAct="Update Product"
+      currentAct="Updating..."
+      formError={formSubError}
+      setFormError={setFormSubError}
+      handleReturn={handleReturn}
+      itemVal={newItemValue}
+      setItemVal={setNewItemValue}
+      priceVal={newPriceValue}
+      setPriceVal={setNewPriceValue}
+      itemHolder="Enter modified product item"
+      priceHolder="Enter modified product base price"
+    />
+  );
+}
+
+export default editProduct;
