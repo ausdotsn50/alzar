@@ -4,7 +4,7 @@
     "slug": "alzar",
     "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/ios-light.png",
+    "icon": "./assets/images/adaptive-icon.png",
     "scheme": "alzar",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -18,7 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#B3E5FC"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.ausdotsn50.alzar"
@@ -36,6 +36,19 @@
       "eas": {
         "projectId": "583f6ea8-ef3a-453a-aa84-21243d74a8a9"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#B3E5FC",
+          "image": "./assets/images/waterDispenserJug.png",
+          "imageWidth": 200
+        }
+      ],
+      "expo-router",
+      "expo-secure-store",
+      "expo-sqlite"
+    ]
   }
 }
