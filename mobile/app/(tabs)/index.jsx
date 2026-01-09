@@ -1,6 +1,6 @@
 import PageLoader from "@/components/PageLoader";
 
-import { FlatList, Image, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { OrdersItem } from "../../components/OrdersItem";
 import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
@@ -9,6 +9,7 @@ import { useCallback } from 'react';
 import { useOrders } from "@/database/hooks/useOrders";
 import { handleDelete } from "@/utils/helpers";
 import { useFocusEffect } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Home() {
   const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
@@ -60,11 +61,14 @@ export default function Home() {
           </View>
 
           {/* Right side of header */}
-          {/*
+          {
           <View style={styles.headerRight}>
-            <SignOutButton />
+            <TouchableOpacity style={styles.addButton} onPress={() => Alert.alert("Hi")}>
+              <Ionicons name="add" size={20} color="#FFF"></Ionicons>
+              <Text style={styles.addButtonText}>Log Transaction</Text>
+            </TouchableOpacity>
           </View>
-          */}
+          }
 
         </View>
 
