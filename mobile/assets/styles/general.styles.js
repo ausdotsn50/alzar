@@ -180,7 +180,7 @@ export const genStyles = StyleSheet.create({
     marginBottom: 20,
     paddingBottom: 5,
     fontSize: 16,
-    color: COLORS.shadow,
+    color: COLORS.borderDrk,
     width: "100%",
     textAlign: "center"
   },

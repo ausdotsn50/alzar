@@ -16,14 +16,23 @@ export function useOrders() { // Removed userId argument
     // Fetch all orders (Removed userId filter)
     const fetchOrders = useCallback(async () => {
         try {
-            const result = await db.getAllAsync(`
-                SELECT orders.id, name, address, item, type,
-                    total_price, created_at FROM orders
-                    JOIN customers ON orders.customer_id = customers.id
-                    JOIN products ON orders.product_id = products.id
-                    ORDER BY created_at DESC
-                    LIMIT 50
-            `);
+        const result = await db.getAllAsync(`
+            SELECT 
+                orders.id,
+                orders.quantity,
+                orders.type,
+                orders.total_price,
+                orders.created_at,
+                customers.name AS customer_name,
+                customers.address AS customer_address,
+                products.item AS product_item,
+                products.base_price AS product_price
+            FROM orders
+            JOIN customers ON orders.customer_id = customers.id
+            JOIN products ON orders.product_id = products.id
+            ORDER BY orders.created_at DESC
+            LIMIT 50
+        `);
             
             setOrders(result);
             return result;

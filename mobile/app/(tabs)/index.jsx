@@ -152,7 +152,7 @@ export default function Home() {
         
         {/* Start of logging all orders */}
         <View style={genStyles.itemsHeaderContainer}>
-          <Text style={genStyles.sectionTitle}>Recent Orders</Text>
+          <Text style={genStyles.sectionTitle}>Recent Transactions</Text>
         </View>
 
           

@@ -7,15 +7,15 @@ import { COLORS } from "@/constants/color.js"
 
 export const OrdersItem = ({ item, onDelete, delOp }) => {
     const typeDisplay = item.type === "deliver" ? "Deliver" : "Walk-In";
-    const costAdd = item.type === "deliver" ? 5.00 : 0;
+    const description = `${item.quantity} ${item.product_item}${item.quantity > 1 ? "s" : ""} | ${typeDisplay}`;
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'medium',
     }).format(new Date(item.created_at));
 
     return (
         <ItemCard
-            title={item.name}
-            subT={typeDisplay}
+            title={item.customer_name}
+            subT={description}
             id={item.id}
             rightContent={
                 <>

@@ -25,7 +25,7 @@ export const CustomerForm = ({ formTitle, subLoading, submitForm, toAct, current
                         clearButtonMode="always"
                         style={[genStyles.searchBar, { marginBottom : 20, color: COLORS.borderDrk}, formError && genStyles.errorInput]}
                         placeholder="Enter customer name"
-                        placeholderTextColor={COLORS.grnShd}
+                        placeholderTextColor={COLORS.borderDrk}
                         value={nameVal}
                         onChangeText={(name) => {
                             setNameVal(name);
@@ -38,7 +38,7 @@ export const CustomerForm = ({ formTitle, subLoading, submitForm, toAct, current
                         clearButtonMode="always"
                         style={[genStyles.searchBar, { marginBottom : 0, color: COLORS.borderDrk}, formError && genStyles.errorInput]}
                         placeholder="Enter customer address"
-                        placeholderTextColor={COLORS.grnShd}
+                        placeholderTextColor={COLORS.borderDrk}
                         value={addressVal}
                         onChangeText={(address) => {
                             setAddressVal(address);

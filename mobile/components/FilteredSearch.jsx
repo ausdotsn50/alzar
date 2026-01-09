@@ -37,7 +37,7 @@ export const FilteredSearch = ({ dataToFilter, onFilter, searchKey }) => {
             autoComplete="off" 
             autoCorrect={false} 
             placeholder="Search" 
-            placeholderTextColor={COLORS.grnShd}
+            placeholderTextColor={COLORS.borderDrk}
             clearButtonMode='always' 
             style={genStyles.searchBar}
             value={searchQuery}

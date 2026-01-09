@@ -18,7 +18,7 @@ export default function LogOrder() {
     // passing the ff. data
     const createOrder = (id, name) => {
         router.push({
-            pathname: "/logOrder/orderFor",
+            pathname: "addTransaction/logOrder/orderFor",
             params: {
                 customerId: id,
                 customerName: name,
