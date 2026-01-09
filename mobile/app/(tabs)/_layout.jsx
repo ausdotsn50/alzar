@@ -1,8 +1,6 @@
-import { BlurView } from 'expo-blur';
 import { COLORS } from "@/constants/color.js";
 import { FontAwesome, FontAwesome5, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { Tabs } from 'expo-router';
-import { StyleSheet } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -58,6 +56,14 @@ export default function TabLayout() {
             <Ionicons name="person" size={23} color={color} />
           ),
         }}
+      />
+
+      {/* Hidden logTransaction.jsx in bottom navbar*/}
+      <Tabs.Screen
+        name="addTransaction"
+        options={{ 
+          href: null,
+        }} 
       />
       
     </Tabs>

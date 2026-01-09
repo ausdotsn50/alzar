@@ -5,14 +5,18 @@ import { OrdersItem } from "../../components/OrdersItem";
 import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useOrders } from "@/database/hooks/useOrders";
 import { handleDelete } from "@/utils/helpers";
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '@/constants/color.js'
+//import { CustomDropdown } from '@/components/CustomDropdown';
 
 export default function Home() {
   const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
+
+  const [expanded, setExpanded] = useState(false);
 
   // Formatting values
   const currentDate = new Date(); // date today
@@ -29,6 +33,7 @@ export default function Home() {
           loadData();
       }, [loadData])
   );
+  const toggleExpanded = useCallback(() => setExpanded(!expanded), [expanded]);
 
   if(isLoading) return <PageLoader />;
   
@@ -63,9 +68,31 @@ export default function Home() {
           {/* Right side of header */}
           {
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.addButton} onPress={() => Alert.alert("Hi")}>
-              <Ionicons name="add" size={20} color="#FFF"></Ionicons>
-              <Text style={styles.addButtonText}>Log Transaction</Text>
+            <TouchableOpacity style={styles.addButton} onPress={toggleExpanded}>
+              <Ionicons name="add" size={20} color={COLORS.card}></Ionicons>
+              <Text style={styles.addButtonText}>Add Transaction</Text>
+              {/* Expanded look for + Add Transaction */}
+              {expanded && (
+                <View style={styles.dropdownMenu}>
+                  <FlatList
+                    data={[
+                      {color: COLORS.grnShd, icon: "cash-outline", path: "/addTransaction/order", label: 'Log Order'},
+                      {color: COLORS.redShd, icon: "receipt-outline", path: '/addTransaction/expense', label: 'Log Expense'},
+                    ]}
+                    renderItem={({item}) => (
+                      <TouchableOpacity 
+                        style={styles.dropdownItem}
+                        onPress={() => {
+                          router.push(item.path)
+                        }}
+                      >
+                        <Ionicons name={item.icon} size={20} color={item.color}/>
+                        <Text style={styles.dropdownItemText}>{item.label}</Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
+              )}
             </TouchableOpacity>
           </View>
           }
