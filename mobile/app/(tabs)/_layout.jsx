@@ -28,6 +28,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/*
       <Tabs.Screen
         name="logOrder"
         options={{
@@ -37,6 +38,7 @@ export default function TabLayout() {
           ),
         }}
       />
+      */}
       
       <Tabs.Screen
         name="products"

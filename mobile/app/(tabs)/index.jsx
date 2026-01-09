@@ -66,25 +66,33 @@ export default function Home() {
           </View>
 
           {/* Right side of header */}
-          {
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.addButton} onPress={toggleExpanded}>
-              <Ionicons name="add" size={20} color={COLORS.card}></Ionicons>
-              <Text style={styles.addButtonText}>Add Transaction</Text>
-              {/* Expanded look for + Add Transaction */}
+            <View style={styles.dropdownContainer}>
+              <TouchableOpacity 
+                style={styles.addButton} 
+                onPress={toggleExpanded}
+                delayLongPress={10000}
+              >
+                <Ionicons name="add" size={20} color={COLORS.card}></Ionicons>
+                <Text style={styles.addButtonText}>Add Transaction</Text>
+              </TouchableOpacity>
+              
+              {/* Moved OUTSIDE TouchableOpacity */}
               {expanded && (
                 <View style={styles.dropdownMenu}>
                   <FlatList
                     data={[
-                      {color: COLORS.grnShd, icon: "cash-outline", path: "/addTransaction/order", label: 'Log Order'},
+                      {color: COLORS.grnShd, icon: "cash-outline", path: "/addTransaction/logOrder", label: 'Log Order'},
                       {color: COLORS.redShd, icon: "receipt-outline", path: '/addTransaction/expense', label: 'Log Expense'},
                     ]}
                     renderItem={({item}) => (
                       <TouchableOpacity 
                         style={styles.dropdownItem}
                         onPress={() => {
-                          router.push(item.path)
+                          toggleExpanded();
+                          router.push(item.path);
                         }}
+                        delayLongPress={10000}
                       >
                         <Ionicons name={item.icon} size={20} color={item.color}/>
                         <Text style={styles.dropdownItemText}>{item.label}</Text>
@@ -93,9 +101,8 @@ export default function Home() {
                   />
                 </View>
               )}
-            </TouchableOpacity>
+            </View>
           </View>
-          }
 
         </View>
 
