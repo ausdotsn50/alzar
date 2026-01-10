@@ -20,11 +20,7 @@ export default function Home() {
 
   // Formatting values
   const currentDate = new Date(); // date today
-
-  const options1 = { year: 'numeric', month: 'long', day: 'numeric' };
   const options2 = { month: 'long' }
-
-  const formattedDate = currentDate.toLocaleDateString(undefined, options1);
   const month = currentDate.toLocaleDateString(undefined, options2);
 
   // Call customers hook
@@ -37,11 +33,6 @@ export default function Home() {
 
   if(isLoading) return <PageLoader />;
   
-  const topRevContri = summary.topRevContri;
-  const topItemName = topRevContri 
-    ? (topRevContri.quantity > 1 ? `${topRevContri.item}s` : topRevContri.item)
-    : "";
-
   return (
     <View style={genStyles.container}>
       <View style={genStyles.content}>
@@ -112,27 +103,26 @@ export default function Home() {
 
             {/* L and R report divisions */}
             <View style={styles.report}>
-              
-              {<View>
-                {summary.revenue ? (
-                  <Text style={styles.revenueAmount}>₱ {parseFloat(summary.revenue).toFixed(2)}</Text>
+              <View>
+                {summary.netIncome > 0 ? (
+                  <Text style={[styles.revenueAmount, {color: COLORS.grnShd}]}>₱ {parseFloat(summary.netIncome).toFixed(2)}</Text>
+                ) : summary.netIncome < 0 ? (
+                  <Text style={[styles.revenueAmount, {color: COLORS.redShd}]}>- ₱ {parseFloat(Math.abs(summary.netIncome)).toFixed(2)}</Text>
                 ) : (
                   <Text style={styles.revenueAmount}>NA</Text>
                 )}
-                
-                
-              </View>}
-
+              </View>
+              
               <View style={styles.reportBottom}>
                 {/* Add an income and expense left and right division here*/}
                 <View style={styles.incomeExpense}>
                   <Text style={styles.incomeText}>Income</Text>
-                  <Text style={styles.incomeCurr}>₱ 200.00</Text>
+                  <Text style={styles.incomeCurr}>+ ₱ {parseFloat(summary.income).toFixed(2)}</Text>
                 </View>
 
                 <View style={styles.incomeExpense}>
                   <Text style={styles.expenseText}>Expenses</Text>
-                  <Text style={styles.expenseCurr}>₱ 300.00</Text>
+                  <Text style={styles.expenseCurr}>- ₱ {parseFloat(summary.expenses).toFixed(2)}</Text>
                 </View>
                 
               </View>

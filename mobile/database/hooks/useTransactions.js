@@ -7,12 +7,9 @@ export function useTransactions() {
     const db = useSQLiteContext();
     const [transactions, setTransactions] = useState([]);
     const [summary, setSummary] = useState({
-        revenue: 0,
+        income: 0,
         expenses: 0,
         netIncome: 0,
-        delivers: 0,
-        walkins: 0,
-        topRevContri: null
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -53,15 +50,7 @@ export function useTransactions() {
             ORDER BY created_at DESC
             LIMIT 50
         `);
-        
-        /*
-        console.log('First 3 transactions with keys:', result.slice(0, 3).map(t => ({ 
-            unique_key: t.unique_key, 
-            id: t.id, 
-            type: t.transaction_type 
-        })));
-        */
-       
+
         setTransactions(result);
         return result;
     } catch(error) {
@@ -70,68 +59,41 @@ export function useTransactions() {
     }
     }, [db]);
 
-    // Fetch summary for today
+    // Fetch summary for the month instead of a (daily report)
+    // Customer feature
     const fetchSummary = useCallback(async () => {
         try {
-            const today = new Date().toISOString().split('T')[0];
-
-            // 1. Total Revenue from orders
-            const revResult = await db.getFirstAsync(`
-                SELECT COALESCE(SUM(total_price), 0) AS rev
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1; // Months are 0-indexed (+1)
+            
+            // (Gross) Income
+            const incResult = await db.getFirstAsync(`
+                SELECT COALESCE(SUM(total_price), 0) AS inc
                 FROM orders
-                WHERE DATE(created_at) = ?
-            `, [today]);
+                WHERE strftime('%Y', created_at) = ? 
+                AND strftime('%m', created_at) = ?
+            `, [year.toString(), month.toString().padStart(2, '0')]);
 
-            // 2. Total Expenses
+            // Expenses
             const expResult = await db.getFirstAsync(`
                 SELECT COALESCE(SUM(amount), 0) AS exp
                 FROM expenses
-                WHERE DATE(created_at) = ?
-            `, [today]);
+                WHERE strftime('%Y', created_at) = ? 
+                AND strftime('%m', created_at) = ?
+            `, [year.toString(), month.toString().padStart(2, '0')]);
 
-            // 3. Delivery Count
-            const deliverResult = await db.getFirstAsync(`
-                SELECT COUNT(*) AS count FROM orders 
-                WHERE type = 'deliver' AND DATE(created_at) = ?
-            `, [today]);
-
-            // 4. Walk-in Count
-            const walkinResult = await db.getFirstAsync(`
-                SELECT COUNT(*) AS count FROM orders 
-                WHERE type = 'walk in' AND DATE(created_at) = ?
-            `, [today]);
-
-            // 5. Top Revenue Contributor
-            const trcResult = await db.getFirstAsync(`
-                SELECT 
-                    customers.name, 
-                    customers.address, 
-                    orders.quantity, 
-                    products.item, 
-                    orders.total_price AS rev
-                FROM orders
-                JOIN customers ON orders.customer_id = customers.id
-                JOIN products ON orders.product_id = products.id
-                WHERE DATE(orders.created_at) = ?
-                ORDER BY rev DESC
-                LIMIT 1
-            `, [today]);
-
-            const revenue = revResult?.rev || 0;
+            const income = incResult?.inc || 0;
             const expenses = expResult?.exp || 0;
 
             const summaryData = {
-                revenue,
+                income,
                 expenses,
-                netIncome: revenue - expenses,
-                delivers: deliverResult?.count || 0,
-                walkins: walkinResult?.count || 0,
-                topRevContri: trcResult || null
+                netIncome: income - expenses,
             };
-
             setSummary(summaryData);
             return summaryData;
-        } catch(error) {
+        } catch (error) {
             console.error("Error fetching summary:", error);
             throw error;
         }

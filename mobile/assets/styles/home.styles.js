@@ -78,7 +78,8 @@ export const styles = StyleSheet.create({
     elevation: 3,
   },
   reportTitle: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 600,
     color: COLORS.textLight,
     textAlign: "center",
     marginBottom: 8,
@@ -98,7 +99,7 @@ export const styles = StyleSheet.create({
   },
   incomeCurr: {
     fontSize: 20, 
-    fontWeight: 600,
+    
     color: COLORS.grnShd,
   },
   expenseText: {
@@ -107,7 +108,7 @@ export const styles = StyleSheet.create({
   },
   expenseCurr: {
     fontSize: 20, 
-    fontWeight: 600,
+    
     color: COLORS.redShd,
   },
   // Additions for v2.0.1
