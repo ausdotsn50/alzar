@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ProductForm } from '@/components/productComp//ProductForm';
 import { useTransactions } from '@/database/hooks/useTransactions';
+import { Alert } from 'react-native';
 
 export default function LogExpense() {
   const router = useRouter();
@@ -17,6 +18,22 @@ export default function LogExpense() {
   const handleReturn = () => {
     if(router.canGoBack()) router.back()
   }
+
+  const postSubmit = () => {
+    Alert.alert(
+        "Success",
+        "Expense created successfully!",
+        [
+            {
+                text: "OK",
+                onPress: () => {
+                    setTitleValue("");
+                    setAmtValue("");
+                }
+            }
+        ]
+    );
+  }
   
   // Input validation before form submission
   const submitForm = async() => {
@@ -31,13 +48,17 @@ export default function LogExpense() {
         setFormSubError(""); // Clear any previous errors
 
         try {
-            await createExpense(titleValue.trim(), amt);
-            handleReturn();
+            await createExpense(titleValue.trim(), amt); // possible err throw (here)
+            
         } catch(error) {
             console.error("Error creating expense:", error);
             setFormSubError(error.message);
         } finally {
-            setSubLoading(false);
+            
+            setTimeout(() => {
+                setSubLoading(false);
+                postSubmit();
+            }, 3000); 
         }
     }
   }
@@ -46,11 +67,11 @@ export default function LogExpense() {
   // Already includes regex validation in the ProductForm 
   return (
       <ProductForm 
-          formTitle="New Product" 
+          formTitle="Record Expense" 
           subLoading={subLoading} 
           submitForm={submitForm} 
-          toAct="Create Product"
-          currentAct="Creating..." 
+          toAct="Log Expense"
+          currentAct="Logging..." 
           formError={formSubError}
           setFormError={setFormSubError}
           handleReturn={handleReturn}

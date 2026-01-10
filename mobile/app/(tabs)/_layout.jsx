@@ -27,18 +27,6 @@ export default function TabLayout() {
           ),
         }}
       />
-
-      {/*
-      <Tabs.Screen
-        name="logOrder"
-        options={{
-          tabBarLabel: "Log Order",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="cash-register" size={21} color={color} />
-          ),
-        }}
-      />
-      */}
       
       <Tabs.Screen
         name="products"

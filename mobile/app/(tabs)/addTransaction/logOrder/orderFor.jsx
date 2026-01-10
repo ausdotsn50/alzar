@@ -48,9 +48,11 @@ const orderFor = () => {
   const handleReturn = () => {
     if(router.canGoBack()) router.back()
   }
-  
+
   // Form submission logic and validation
   // Note: includes is an array function
+
+  // Submit form handles staying on the order side until you've navigated to an entirely new TAB
   const submitForm = async() => {
     // Input validation section 
     const quantity = Number(pQuantValue);
@@ -68,12 +70,16 @@ const orderFor = () => {
       setSubLoading(true);
       try {
         await createOrder(productValue, customerId, pQuantValue, pTypeValue)
-        handleReturn();
       } catch(error) {
         console.error("Error creating order: ", error); 
         setFormSubError(error.message);
       } finally {
-        setSubLoading(false);
+        // Delay feel for creating an order 
+        setTimeout(() => {
+            setSubLoading(false);
+            handleReturn();
+            Alert.alert("Success", "Order created successfully"); 
+          }, 1000);
       }
     }
   }

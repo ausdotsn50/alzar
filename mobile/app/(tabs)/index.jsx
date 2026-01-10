@@ -167,7 +167,8 @@ export default function Home() {
         renderItem={({ item }) => (
           <TransactionItem 
             item={item}
-            onDelete={deleteTransaction}
+            onDelete={handleDelete} 
+            delOp={deleteTransaction}
           />
         )}
         ListEmptyComponent={

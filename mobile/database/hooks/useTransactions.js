@@ -187,7 +187,6 @@ export function useTransactions() {
             `, [product_id, customer_id, quantity, type, total_price]);
 
             await loadData();
-            Alert.alert("Success", "Order created successfully");
             return result.lastInsertRowid;
         } catch(error) {
             console.error("Error creating order:", error);
@@ -210,7 +209,6 @@ export function useTransactions() {
             `, [title, parseFloat(amount)]);
 
             await loadData();
-            Alert.alert("Success", "Expense created successfully");
             return result.lastInsertRowid;
         } catch(error) {
             console.error("Error creating expense:", error);

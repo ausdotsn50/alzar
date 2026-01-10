@@ -5,7 +5,7 @@ import Feather from '@expo/vector-icons/Feather';
 
 import { COLORS } from "@/constants/color.js"
 
-export const TransactionItem = ({ item, onDelete, delay }) => {
+export const TransactionItem = ({ item, onDelete, delOp }) => {
     const typeDisplay = item.order_type === "deliver" ? "Deliver" : "Walk-in";
     const description = item.quantity 
         ? `${item.quantity} ${item.description}${item.quantity > 1 ? "s" : ""}`
@@ -21,7 +21,7 @@ export const TransactionItem = ({ item, onDelete, delay }) => {
             <ItemCard
                 title={item.customer_name}
                 subT={description}
-                id={item.id}
+                id={item.unique_key}
                 rightContent={
                     <>
                         <Text style={genStyles.itemAmount}>
@@ -35,6 +35,14 @@ export const TransactionItem = ({ item, onDelete, delay }) => {
                 cardAction={() => {
                     null
                 }}
+                iconContent={
+                    <>
+                    {/* delete icon */}
+                    <TouchableOpacity style={genStyles.deleteButton} onPress={() => onDelete(item.id, "order", delOp)}>
+                        <Feather name="trash-2" size={22} color={COLORS.redShd} />
+                    </TouchableOpacity>
+                    </>
+                }
             />
         );
     } else {
@@ -43,7 +51,7 @@ export const TransactionItem = ({ item, onDelete, delay }) => {
             <ItemCard
                 title={item.description}
                 subT="Expense"
-                id={item.id}
+                id={item.unique_key}
                 rightContent={
                     <>
                         <Text style={[genStyles.itemAmount, { color: COLORS.redShd }]}>
@@ -57,6 +65,14 @@ export const TransactionItem = ({ item, onDelete, delay }) => {
                 cardAction={() => {
                     // Handle expense action
                 }}
+                iconContent={
+                    <>
+                    {/* delete icon */}
+                    <TouchableOpacity style={genStyles.deleteButton} onPress={() => onDelete(item.id, "expense", delOp)}>
+                        <Feather name="trash-2" size={22} color={COLORS.redShd} />
+                    </TouchableOpacity>
+                    </>
+                }
             />
         );
     }
