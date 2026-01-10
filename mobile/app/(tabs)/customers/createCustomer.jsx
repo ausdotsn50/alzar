@@ -33,7 +33,11 @@ const createCustomer = () => {
                 console.error("Error creating customer:", error);
                 setFormSubError(error.message);
             } finally {
-                setSubLoading(false);
+                setTimeout(() => {
+                    setSubLoading(false);
+                    handleReturn();
+                    Alert.alert("Success", "Customer added successfully");
+                }, 1000);
             }
         }
     }

@@ -76,10 +76,10 @@ const orderFor = () => {
       } finally {
         // Delay feel for creating an order 
         setTimeout(() => {
-            setSubLoading(false);
-            handleReturn();
-            Alert.alert("Success", "Order created successfully"); 
-          }, 1000);
+          setSubLoading(false);
+          handleReturn();
+          Alert.alert("Success", "Order created successfully"); 
+        }, 1000);
       }
     }
   }

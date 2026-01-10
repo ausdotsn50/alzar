@@ -37,7 +37,11 @@ const createProduct = () => {
                 console.error("Error creating product:", error);
                 setFormSubError(error.message);
             } finally {
-                setSubLoading(false);
+                setTimeout(() => {
+                    setSubLoading(false);
+                    handleReturn();
+                    Alert.alert("Success", "Product added successfully");
+                }, 1000);
             }
         }
     }

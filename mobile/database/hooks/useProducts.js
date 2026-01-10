@@ -47,7 +47,6 @@ export function useProducts() {
             );
             
             await loadData();
-            Alert.alert("Success", "Product added successfully");
             return result.lastInsertRowId;
         } catch(error) {
             console.error("Error adding product:", error);
