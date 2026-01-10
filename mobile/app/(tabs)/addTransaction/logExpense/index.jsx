@@ -54,11 +54,11 @@ export default function LogExpense() {
             console.error("Error creating expense:", error);
             setFormSubError(error.message);
         } finally {
-            
+            // Added a delay feel to the finally block for a better design
             setTimeout(() => {
                 setSubLoading(false);
                 postSubmit();
-            }, 3000); 
+            }, 1000); 
         }
     }
   }

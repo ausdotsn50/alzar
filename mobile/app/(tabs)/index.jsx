@@ -22,10 +22,10 @@ export default function Home() {
   const currentDate = new Date(); // date today
 
   const options1 = { year: 'numeric', month: 'long', day: 'numeric' };
-  const options2 = { weekday: 'long' }
+  const options2 = { month: 'long' }
 
   const formattedDate = currentDate.toLocaleDateString(undefined, options1);
-  const day = currentDate.toLocaleDateString(undefined, options2);
+  const month = currentDate.toLocaleDateString(undefined, options2);
 
   // Call customers hook
   useFocusEffect(
@@ -108,43 +108,33 @@ export default function Home() {
 
           {/* Place for summary card */}
           <View style={styles.reportCard}>
-            <Text style={styles.reportTitle}>{day} Report | {formattedDate}</Text>
+            <Text style={styles.reportTitle}>Net Income | Month of {month}</Text>
 
             {/* L and R report divisions */}
             <View style={styles.report}>
               
               {<View>
                 {summary.revenue ? (
-                  <Text style={styles.revenueAmount}>Php {parseFloat(summary.revenue).toFixed(2)}</Text>
+                  <Text style={styles.revenueAmount}>₱ {parseFloat(summary.revenue).toFixed(2)}</Text>
                 ) : (
                   <Text style={styles.revenueAmount}>NA</Text>
                 )}
                 
-                <Text style={styles.topRevenueTitle}>Top Revenue Contributor</Text>
-                {topRevContri ? (
-                  <>
-                    <Text style={styles.topRevenueText}>
-                      {topRevContri.name} | {topRevContri.address} Area
-                    </Text>
-                    <Text style={styles.topRevenueText}>
-                      {topRevContri.quantity} {topItemName}
-                    </Text>
-                  </>
-                ) : (
-                  <Text style={styles.topRevenueText}>NA</Text>
-                )}
+                
               </View>}
 
-              <View>
-                <View style={styles.reportMiniCard}>
-                  <Text style={styles.delivers}>Delivers</Text>
-                  <Text style={styles.delivers}>{summary.delivers}</Text>
+              <View style={styles.reportBottom}>
+                {/* Add an income and expense left and right division here*/}
+                <View style={styles.incomeExpense}>
+                  <Text style={styles.incomeText}>Income</Text>
+                  <Text style={styles.incomeCurr}>₱ 200.00</Text>
                 </View>
 
-                <View style={styles.reportMiniCard}>
-                  <Text style={styles.walkins}>Walk-Ins</Text>
-                  <Text style={styles.walkins}>{summary.walkins}</Text>
+                <View style={styles.incomeExpense}>
+                  <Text style={styles.expenseText}>Expenses</Text>
+                  <Text style={styles.expenseCurr}>₱ 300.00</Text>
                 </View>
+                
               </View>
 
             </View>

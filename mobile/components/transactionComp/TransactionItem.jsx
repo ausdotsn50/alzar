@@ -8,7 +8,7 @@ import { COLORS } from "@/constants/color.js"
 export const TransactionItem = ({ item, onDelete, delOp }) => {
     const typeDisplay = item.order_type === "deliver" ? "Deliver" : "Walk-in";
     const description = item.quantity 
-        ? `${item.quantity} ${item.description}${item.quantity > 1 ? "s" : ""}`
+        ? `${item.quantity} ${item.description}${item.quantity > 1 ? "s" : ""} | ${typeDisplay}`
         : item.description;
     
     const formattedDate = new Intl.DateTimeFormat('en-US', {
