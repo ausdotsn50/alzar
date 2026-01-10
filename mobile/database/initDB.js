@@ -20,7 +20,8 @@ export async function initDB(db) {
             );
         `);
 
-        // Create Orders
+        // Separating orders and expense table instead of coalesceing to a Transactions table
+        // Expenses are free form and orders have more structure
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,6 +36,16 @@ export async function initDB(db) {
             );
         `);
         
+        // Additional table in the DB for expenses
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS expenses (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                amount REAL NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
         console.log("Database initialized successfully");
     } catch (error) {
         console.error("Error initializing database:", error);

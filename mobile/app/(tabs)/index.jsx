@@ -1,12 +1,12 @@
 import PageLoader from "@/components/PageLoader";
 
 import { Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
-import { OrdersItem } from "../../components/OrdersItem";
+import { TransactionItem } from '@/components/transactionComp/TransactionItem'
 import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
 import { useCallback, useState } from 'react';
-import { useOrders } from "@/database/hooks/useOrders";
+import { useTransactions } from "@/database/hooks/useTransactions";
 import { handleDelete } from "@/utils/helpers";
 import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,7 +14,7 @@ import { COLORS } from '@/constants/color.js'
 //import { CustomDropdown } from '@/components/CustomDropdown';
 
 export default function Home() {
-  const { orders, summary, isLoading, loadData, deleteOrder } = useOrders();
+  const { transactions, summary, isLoading, loadData, deleteTransaction } = useTransactions();
 
   const [expanded, setExpanded] = useState(false);
 
@@ -83,7 +83,7 @@ export default function Home() {
                   <FlatList
                     data={[
                       {color: COLORS.grnShd, icon: "cash-outline", path: "/addTransaction/logOrder", label: 'Log Order'},
-                      {color: COLORS.redShd, icon: "receipt-outline", path: '/addTransaction/expense', label: 'Log Expense'},
+                      {color: COLORS.redShd, icon: "receipt-outline", path: '/addTransaction/logExpense', label: 'Log Expense'},
                     ]}
                     renderItem={({item}) => (
                       <TouchableOpacity 
@@ -162,9 +162,13 @@ export default function Home() {
       <FlatList
         style={genStyles.itemsList}
         contentContainerStyle={genStyles.itemsListContent}
-        data={orders}
-        renderItem={({item}) => (
-          <OrdersItem item={item} onDelete={handleDelete} delOp={deleteOrder}/>
+        data={transactions}
+        keyExtractor={(item) => item.unique_key} // req. keyExtractor for unique key identified bug fix
+        renderItem={({ item }) => (
+          <TransactionItem 
+            item={item}
+            onDelete={deleteTransaction}
+          />
         )}
         ListEmptyComponent={
           <View style={genStyles.emptyState}>

@@ -1,4 +1,4 @@
-import { ProductForm } from '@/components/ProductForm';
+import { ProductForm } from '@/components/productComp/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';

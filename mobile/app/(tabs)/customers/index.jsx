@@ -2,7 +2,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import PageLoader from '@/components/PageLoader';
 
 import { COLORS } from "@/constants/color.js"
-import { CustomersItem } from '@/components/CustomersItem';
+import { CustomersItem } from '@/components/customerComp/CustomersItem';
 import { FilteredSearch } from '@/components/FilteredSearch';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { genStyles } from '@/assets/styles/general.styles.js';

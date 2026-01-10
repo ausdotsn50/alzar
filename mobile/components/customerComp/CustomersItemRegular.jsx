@@ -1,4 +1,4 @@
-import { ItemCard } from "./ItemCard";
+import { ItemCard } from "../ItemCard";
 
 export const CustomersItemRegular = ({ item, onDelete, delOp, cardAct}) => {
     return (

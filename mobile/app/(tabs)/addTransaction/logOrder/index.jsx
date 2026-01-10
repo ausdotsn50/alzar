@@ -1,6 +1,6 @@
 import PageLoader from '@/components/PageLoader';
 
-import { CustomersItemRegular } from '@/components/CustomersItemRegular';
+import { CustomersItemRegular } from '@/components/customerComp/CustomersItemRegular';
 import { FilteredSearch } from '@/components/FilteredSearch';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { genStyles } from '@/assets/styles/general.styles.js';

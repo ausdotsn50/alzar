@@ -1,4 +1,4 @@
-import { CustomerForm } from '@/components/CustomerForm';
+import { CustomerForm } from '@/components/customerComp/CustomerForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';

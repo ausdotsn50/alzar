@@ -6,7 +6,7 @@ import { FilteredSearch } from '@/components/FilteredSearch';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { genStyles } from '@/assets/styles/general.styles.js';
 import { handleDelete } from "@/utils/helpers";
-import { ProductsItem } from '@/components/ProductsItem';
+import { ProductsItem } from '@/components/productComp/ProductsItem';
 import { useCallback, useState } from 'react';
 import { useProducts } from "@/database/hooks/useProducts.js";
 import { useFocusEffect, useRouter } from 'expo-router';

@@ -10,7 +10,6 @@ import { useRouter } from 'expo-router';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { useProducts } from "@/database/hooks/useProducts";
 import { useEffect, useState } from 'react';
-import { useOrders } from '@/database/hooks/useOrders';
 
 const addTransaction = () => {
   return (

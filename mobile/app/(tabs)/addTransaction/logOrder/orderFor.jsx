@@ -10,12 +10,12 @@ import { useRouter } from 'expo-router';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { useProducts } from "@/database/hooks/useProducts";
 import { useEffect, useState } from 'react';
-import { useOrders } from '@/database/hooks/useOrders';
+import { useTransactions } from '@/database/hooks/useTransactions';
 
 const orderFor = () => {
   const router = useRouter();
 
-  const { createOrder } = useOrders();
+  const { createOrder } = useTransactions();
   const { products, isLoading, loadData } = useProducts(); 
   const { customerId, customerName } = useLocalSearchParams(); // local params passed from logOrder/index.jsx
 
@@ -71,7 +71,7 @@ const orderFor = () => {
         handleReturn();
       } catch(error) {
         console.error("Error creating order: ", error); 
-        Alert.alert("An error occurred", error.message);
+        setFormSubError(error.message);
       } finally {
         setSubLoading(false);
       }

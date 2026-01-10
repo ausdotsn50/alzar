@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { CustomerForm } from '@/components/CustomerForm';
+import { CustomerForm } from '@/components/customerComp/CustomerForm';
 import { useCustomers } from '@/database/hooks/useCustomers';
 
 const createCustomer = () => {

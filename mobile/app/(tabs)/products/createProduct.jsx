@@ -1,4 +1,4 @@
-import { ProductForm } from '@/components/ProductForm';
+import { ProductForm } from '@/components/productComp/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useProducts } from '@/database/hooks/useProducts';
@@ -22,7 +22,7 @@ const createProduct = () => {
     const submitForm = async() => {
         const price = Number(priceValue); // for isNaN checker
 
-        if(!itemValue || !priceValue) {
+        if(!itemValue || !price) {
             setFormSubError("All fields are required");
         } else if(isNaN(price) || price <= 0) {
             setFormSubError("Positive numeric values only");
