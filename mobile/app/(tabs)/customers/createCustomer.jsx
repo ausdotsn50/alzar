@@ -26,7 +26,6 @@ const createCustomer = () => {
 
             try {
                 await addCustomer(nameValue, addressValue);
-                handleReturn();
             } catch(error) {
                 console.error("Error creating customer:", error);
                 setFormSubError(error.message);
@@ -35,7 +34,7 @@ const createCustomer = () => {
                     setSubLoading(false);
                     handleReturn();
                     Alert.alert("Success", "Customer added successfully");
-                }, 1000);
+                }, 500);
             }
         }
     }

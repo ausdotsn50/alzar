@@ -8,12 +8,13 @@ export const handleDelete = (id, itemType, deleteItem) => {
     if(cascadingTypes.includes(itemType)) {
         Alert.alert(`Delete ${capitalized}`, `This will also remove related order history. Proceed with caution.`, [
             { text: "Cancel", style: "cancel"},
-            { text: "Delete", style: "destructive", onPress: () => deleteItem(id)},
+            { text: "Delete", style: "destructive", onPress: () => deleteItem(id, itemType)},
         ]);
     } else {
         Alert.alert(`Delete ${capitalized}`, `Are you sure you want to delete this ${itemType}?`, [
             { text: "Cancel", style: "cancel"},
-            { text: "Delete", style: "destructive", onPress: () => deleteItem(id)},
+            // Note that on Javascript, extra arguments are just ignored when it's more than expected (better more than less)
+            { text: "Delete", style: "destructive", onPress: () => deleteItem(id, itemType)},
         ]);
     }
 };

@@ -78,7 +78,6 @@ export function useProducts() {
 
             await db.runAsync(query, params);
             await loadData();
-            Alert.alert("Success", "Product updated successfully");
         } catch(error) {
             console.error("Error updating product:", error);
             throw error;
@@ -88,11 +87,14 @@ export function useProducts() {
     // Delete product
     const deleteProduct = useCallback(async (id) => {
         try {
-            const result = await db.runAsync('DELETE FROM products WHERE id = ?', [id]);
+            await db.runAsync('DELETE FROM products WHERE id = ?', [id]);
+            await new Promise(resolve => setTimeout(resolve, 500));
             await loadData();
-            if (result.changes > 0) Alert.alert("Success", "Product deleted");
         } catch(error) {
             console.error("Error deleting product:", error);
+            Alert.alert("Error", error.message);
+        } finally {
+            Alert.alert("Success", "Product deleted");
         }
     }, [db, loadData]);
 

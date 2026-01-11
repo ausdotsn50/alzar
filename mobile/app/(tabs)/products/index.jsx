@@ -52,7 +52,7 @@ export default function Products() {
                 </TouchableOpacity>
             </View>
             <FlatList
-                style={genStyles.itemsList}
+                style={genStyles.itemsList}d
                 contentContainerStyle={genStyles.itemsListContent}
                 data={filteredProducts}
                 renderItem={({item}) => (

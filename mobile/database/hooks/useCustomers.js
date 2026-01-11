@@ -47,7 +47,6 @@ export function useCustomers() { // Removed userId argument
             );
             
             await loadData();
-            Alert.alert("Success", "Customer added successfully");
             return result.lastInsertRowId;
         } catch(error) {
             console.error("Error adding customer:", error);
@@ -79,7 +78,6 @@ export function useCustomers() { // Removed userId argument
 
             await db.runAsync(query, params);
             await loadData();
-            Alert.alert("Success", "Customer updated successfully");
         } catch(error) {
             console.error("Error updating customer:", error);
             throw error;
@@ -90,20 +88,15 @@ export function useCustomers() { // Removed userId argument
     const deleteCustomer = useCallback(async (id) => {
         try {
             // Note: [ON DELETE CASCADE] in orders table effect - deleting a customer will also delete their orders.
-            const result = await db.runAsync('DELETE FROM customers WHERE id = ?', [id]);
+            await db.runAsync('DELETE FROM customers WHERE id = ?', [id]);
+            await new Promise(resolve => setTimeout(resolve, 500));
             await loadData();
-            if (result.changes > 0) Alert.alert("Success", "Customer deleted");
         } catch(error) {
             console.error("Error deleting customer:", error);
+        } finally {
+            Alert.alert("Success", "Customer deleted");
         }
     }, [db, loadData]);
 
-    return { 
-        customers, 
-        isLoading, 
-        loadData, 
-        addCustomer, 
-        updateCustomer, 
-        deleteCustomer 
-    };
+    return { customers, isLoading, loadData, addCustomer, updateCustomer, deleteCustomer };
 }

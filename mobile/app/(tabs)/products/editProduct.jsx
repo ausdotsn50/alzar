@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useProducts } from '@/database/hooks/useProducts';
+import { Alert } from 'react-native';
 
 const editProduct = () => {
   const router = useRouter();
@@ -32,12 +33,15 @@ const editProduct = () => {
       
       try {
         await updateProduct(productId, newItemValue, newPriceValue);
-        handleReturn();
       } catch (error) {
         console.error("Error updating product:", error);
         setFormSubError(error.message);
       } finally {
-        setSubLoading(false);
+        setTimeout(() => {
+            setSubLoading(false);
+            handleReturn();
+            Alert.alert("Success", "Product updated successfully");
+        }, 500);
       }
     }
   }

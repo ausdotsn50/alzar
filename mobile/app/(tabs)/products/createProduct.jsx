@@ -2,6 +2,7 @@ import { ProductForm } from '@/components/productComp/ProductForm';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useProducts } from '@/database/hooks/useProducts';
+import { Alert } from 'react-native';
 
 const createProduct = () => {
     const router = useRouter();
@@ -31,7 +32,6 @@ const createProduct = () => {
             
             try {
                 await addProduct(itemValue.trim(), price);
-                handleReturn();
             } catch(error) {
                 console.error("Error creating product:", error);
                 setFormSubError(error.message);
@@ -40,7 +40,7 @@ const createProduct = () => {
                     setSubLoading(false);
                     handleReturn();
                     Alert.alert("Success", "Product added successfully");
-                }, 1000);
+                }, 500);
             }
         }
     }

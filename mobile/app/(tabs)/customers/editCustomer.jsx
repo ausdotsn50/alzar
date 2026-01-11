@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useCustomers } from '@/database/hooks/useCustomers';
+import { Alert } from 'react-native';
 
 const editCustomer = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const editCustomer = () => {
   const[formSubError, setFormSubError] = useState("");
   const[newNameValue, setNewNameValue] = useState(customerName);
   const[newAddressValue, setNewAddressValue] = useState(customerAddress);
-  
+
   const handleReturn = () => {
     if(router.canGoBack()) router.back()
   }
@@ -27,12 +28,15 @@ const editCustomer = () => {
 
       try {
         await updateCustomer(customerId, newNameValue, newAddressValue);
-        handleReturn();
       } catch (error) {
         console.error("Error updating customer:", error);
         setFormSubError(error.message);
       } finally {
-        setSubLoading(false);
+        setTimeout(() => {
+            setSubLoading(false);
+            handleReturn();
+            Alert.alert("Success", "Customer updated successfully");
+        }, 500);
       }
     }
   }

@@ -13,6 +13,17 @@ export default function LogOrder() {
     const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
     const[filteredCustomers, setFilteredCustomers] = useState([]); // stored filtered query of customers here
     
+    // passing the ff. data
+    const createOrder = (id, name) => {
+        router.push({
+            pathname: "/logOrder/orderFor",
+            params: {
+                customerId: id,
+                customerName: name,
+            }
+        });
+    };
+    
     // Call customers hook
     useFocusEffect(
         useCallback(() => {

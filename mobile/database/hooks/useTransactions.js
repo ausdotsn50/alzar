@@ -115,7 +115,6 @@ export function useTransactions() {
     // Delete a transaction (order or expense)
     const deleteTransaction = useCallback(async (id, type) => {
         try {
-            console.log(id, type)
             if (isNaN(parseInt(id))) throw new Error("Invalid transaction ID");
 
             const table = type === 'order' ? 'orders' : 'expenses';
@@ -123,11 +122,13 @@ export function useTransactions() {
 
             if (result.changes === 0) throw new Error("Transaction not found");
 
+            await new Promise(resolve => setTimeout(resolve, 500)); // new Promise object + set a Timeout for delete delay fx
             await loadData();
-            Alert.alert("Success", `${type === 'order' ? 'Order' : 'Expense'} deleted successfully`);
         } catch(error) {
             console.error("Error deleting transaction:", error);
             Alert.alert("Error", error.message);
+        } finally {
+            Alert.alert("Success", `${type === 'order' ? 'Order' : 'Expense'} deleted successfully`);    
         }
     }, [db, loadData]);
 
