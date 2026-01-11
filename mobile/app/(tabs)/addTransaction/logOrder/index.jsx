@@ -10,13 +10,14 @@ import { useCallback, useState  } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function LogOrder() {
+    const router = useRouter();
     const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
     const[filteredCustomers, setFilteredCustomers] = useState([]); // stored filtered query of customers here
     
     // passing the ff. data
     const createOrder = (id, name) => {
         router.push({
-            pathname: "/logOrder/orderFor",
+            pathname: "addTransaction/logOrder/orderFor",
             params: {
                 customerId: id,
                 customerName: name,
