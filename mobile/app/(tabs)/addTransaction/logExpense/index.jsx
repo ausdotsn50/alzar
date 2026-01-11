@@ -11,7 +11,6 @@ export default function LogExpense() {
 
   const[titleValue, setTitleValue] = useState(null);
   const[amtValue, setAmtValue] = useState(null);
-
   const[formSubError, setFormSubError] = useState("");
   const[subLoading, setSubLoading] = useState(false);
 

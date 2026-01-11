@@ -8,12 +8,10 @@ const editProduct = () => {
   const router = useRouter();
 
   const { updateProduct } = useProducts(); 
+  const { productId, productItem, productPrice } = useLocalSearchParams();
 
   const[subLoading, setSubLoading] = useState(false);
   const[formSubError, setFormSubError] = useState("");
-
-  const { productId, productItem, productPrice } = useLocalSearchParams();
-
   const[newItemValue, setNewItemValue] = useState(productItem);
   const[newPriceValue, setNewPriceValue] = useState(productPrice);
   

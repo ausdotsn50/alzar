@@ -1,8 +1,7 @@
 import PageLoader from "@/components/PageLoader";
 
-import { Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { TransactionItem } from '@/components/transactionComp/TransactionItem'
-import { SignOutButton } from '@/components/SignOutButton';
 import { genStyles } from "@/assets/styles/general.styles.js";
 import { styles } from "@/assets/styles/home.styles.js";
 import { useCallback, useState } from 'react';
@@ -11,28 +10,27 @@ import { handleDelete } from "@/utils/helpers";
 import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '@/constants/color.js'
-//import { CustomDropdown } from '@/components/CustomDropdown';
 
 export default function Home() {
   const { transactions, summary, isLoading, loadData, deleteTransaction } = useTransactions();
-
   const [expanded, setExpanded] = useState(false);
 
-  // Formatting values
+  // Date formatting values
   const currentDate = new Date(); // date today
   const options2 = { month: 'long' }
   const month = currentDate.toLocaleDateString(undefined, options2);
 
-  // Call customers hook
+  // Transactions hook for loadingData
   useFocusEffect(
       useCallback(() => {
           loadData();
       }, [loadData])
   );
+
+  // Add transaction dropdown button
   const toggleExpanded = useCallback(() => setExpanded(!expanded), [expanded]);
 
   if(isLoading) return <PageLoader />;
-  
   return (
     <View style={genStyles.container}>
       <View style={genStyles.content}>
@@ -83,7 +81,6 @@ export default function Home() {
                           toggleExpanded();
                           router.push(item.path);
                         }}
-                        delayLongPress={10000}
                       >
                         <Ionicons name={item.icon} size={20} color={item.color}/>
                         <Text style={styles.dropdownItemText}>{item.label}</Text>
@@ -117,12 +114,20 @@ export default function Home() {
                 {/* Add an income and expense left and right division here*/}
                 <View style={styles.incomeExpense}>
                   <Text style={styles.incomeText}>Income</Text>
-                  <Text style={styles.incomeCurr}>+ ₱ {parseFloat(summary.income).toFixed(2)}</Text>
+                  { summary.income === 0 ? (
+                      <Text style={styles.incomeCurr}> ₱ {parseFloat(summary.income).toFixed(2)}</Text>
+                    ) : (
+                      <Text style={styles.incomeCurr}>+ ₱ {parseFloat(summary.income).toFixed(2)}</Text>
+                  )}
                 </View>
 
                 <View style={styles.incomeExpense}>
                   <Text style={styles.expenseText}>Expenses</Text>
-                  <Text style={styles.expenseCurr}>- ₱ {parseFloat(summary.expenses).toFixed(2)}</Text>
+                  { summary.income === 0 ? (
+                      <Text style={styles.expenseCurr}> ₱ {parseFloat(summary.expenses).toFixed(2)}</Text>
+                    ) : (
+                      <Text style={styles.expenseCurr}>+ ₱ {parseFloat(summary.expenses).toFixed(2)}</Text>
+                  )}
                 </View>
                 
               </View>

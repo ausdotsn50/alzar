@@ -13,13 +13,10 @@ import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function customer() {
     const router = useRouter();
-
     const { customers, isLoading, loadData, deleteCustomer } = useCustomers();
-    
     const[filteredCustomers, setfilteredCustomers] = useState([]);
     
     const createCustomer = () => {
-        // console.log("Creating customer...");
         router.push("customers/createCustomer");
     }
 
@@ -34,7 +31,7 @@ export default function customer() {
         })
     }
 
-    // Call customers hook
+    // Call customers hook for loadingData
     useFocusEffect(
         useCallback(() => {
             loadData();
@@ -42,7 +39,6 @@ export default function customer() {
     );
 
     if(isLoading) return <PageLoader />;
-
     return (
         <View style={genStyles.container}>
             <View style={genStyles.content}>
@@ -59,8 +55,6 @@ export default function customer() {
                 contentContainerStyle={genStyles.itemsListContent}
                 data={filteredCustomers}
                 renderItem={({item}) => (
-                    // Choose customer op
-                    // To do: choose products for customer purchase
                     <CustomersItem item={item} onDelete={handleDelete} delOp={deleteCustomer} cardAct={() => {null}} onEdit={updateCustomer}
                     />
                 )}

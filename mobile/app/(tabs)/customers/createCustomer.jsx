@@ -6,14 +6,12 @@ import { useCustomers } from '@/database/hooks/useCustomers';
 
 const createCustomer = () => {
     const router = useRouter();
-    
-    const { addCustomer } = useCustomers()
+    const { addCustomer } = useCustomers();
 
     const[nameValue, setNameValue] = useState(null);
     const[addressValue, setAddressValue] = useState(null);
-
-    const[formSubError, setFormSubError] = useState(""); // error msg display for form submission
-    const[subLoading, setSubLoading] = useState(false); // submission of form loading
+    const[formSubError, setFormSubError] = useState(""); 
+    const[subLoading, setSubLoading] = useState(false); 
 
     const handleReturn = () => {
         if(router.canGoBack()) router.back()
@@ -60,5 +58,4 @@ const createCustomer = () => {
     );
 }
 
-// on submit order: use order route to create a new order for
 export default createCustomer;

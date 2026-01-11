@@ -8,12 +8,10 @@ const editCustomer = () => {
   const router = useRouter();
 
   const { updateCustomer } = useCustomers();
+  const { customerId, customerName, customerAddress } = useLocalSearchParams();
 
   const[subLoading, setSubLoading] = useState(false);
   const[formSubError, setFormSubError] = useState("");
-
-  const { customerId, customerName, customerAddress } = useLocalSearchParams();
-
   const[newNameValue, setNewNameValue] = useState(customerName);
   const[newAddressValue, setNewAddressValue] = useState(customerAddress);
   
@@ -22,7 +20,6 @@ const editCustomer = () => {
   }
 
   const submitForm = async () => {
-    // If both are blank or just whitespace
     if (!newNameValue && !newAddressValue) {
       setFormSubError("Fill up at least one field");
     } else {
@@ -39,7 +36,6 @@ const editCustomer = () => {
       }
     }
   }
-
 
   return (
     <CustomerForm

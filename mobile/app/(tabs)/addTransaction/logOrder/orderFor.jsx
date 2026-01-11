@@ -19,30 +19,22 @@ const orderFor = () => {
   const { products, isLoading, loadData } = useProducts(); 
   const { customerId, customerName } = useLocalSearchParams(); // local params passed from logOrder/index.jsx
 
-  // Values for form submission
   const[productValue, setProductValue] = useState(null);
   const[pTypeValue, setPTypeValue] = useState(null);
   const[pQuantValue, setPQuantValue] = useState(null);
-  
   const[formSubError, setFormSubError] = useState("");
   const[subLoading, setSubLoading] = useState(false);
 
-  // products data
+  // Products data mapped from products from (useProducts hook)
   const newProdMap = products.map(product => ({
     label: product.item,
     value: product.id,
   }));
-
-  // product ids only
-  const productIds = products.map(product => product.id);
-
-  // types data
+  const productIds = products.map(product => product.id); // mapped
   const types = [
     { label: 'Walk-in', value: 'walk in' },
     { label: 'Deliver', value: 'deliver' },
   ]
-
-  // type values only
   const typeValues = types.map(type => type.value);
 
   const handleReturn = () => {
@@ -51,10 +43,8 @@ const orderFor = () => {
 
   // Form submission logic and validation
   // Note: includes is an array function
-
   // Submit form handles staying on the order side until you've navigated to an entirely new TAB
   const submitForm = async() => {
-    // Input validation section 
     const quantity = Number(pQuantValue);
 
     if(!productValue || !pTypeValue || !pQuantValue) {
@@ -89,11 +79,7 @@ const orderFor = () => {
       loadData()
   }, [loadData]);
 
-  // console.log(newProdMap);
-  // console.log(customerId, customerName);
-
   if(isLoading) return <PageLoader />;
-
   return (
     <View style={genStyles.container}>
       <View style={genStyles.content}>
@@ -149,5 +135,4 @@ const orderFor = () => {
   )
 }
 
-// on submit order: use order route to create a new order for
 export default orderFor;

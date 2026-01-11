@@ -48,7 +48,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Hidden logTransaction.jsx in bottom navbar*/}
+      {/* Hidden addTransaction.jsx in bottom navbar*/}
       <Tabs.Screen
         name="addTransaction"
         options={{ 

@@ -13,13 +13,10 @@ import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function Products() {
     const router = useRouter(); 
-    
     const { products, isLoading, loadData, deleteProduct } = useProducts(); // custom products hook
-    
     const[filteredProducts, setFilteredProducts] = useState([]); // used for search functionality
 
     const createProduct = () => {
-        // console.log("Creating product...");
         router.push("products/createProduct");
     }
 

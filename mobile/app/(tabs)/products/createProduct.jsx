@@ -4,13 +4,12 @@ import { useState } from 'react';
 import { useProducts } from '@/database/hooks/useProducts';
 
 const createProduct = () => {
-    const { addProduct } = useProducts(); 
     const router = useRouter();
+    const { addProduct } = useProducts(); 
 
     // Values to be submitted
     const [itemValue, setItemValue] = useState("");
     const [priceValue, setPriceValue] = useState("");
-
     const [formSubError, setFormSubError] = useState(""); // error msg display for form submission
     const [subLoading, setSubLoading] = useState(false); // submission of form loading
     
@@ -21,7 +20,7 @@ const createProduct = () => {
 
     const submitForm = async() => {
         const price = Number(priceValue); // for isNaN checker
-
+        
         if(!itemValue || !price) {
             setFormSubError("All fields are required");
         } else if(isNaN(price) || price <= 0) {
