@@ -1,4 +1,4 @@
-import { genStyles } from "@/assets/styles/general.styles.js"
+import { genStyles } from '@/assets/styles/general.styles.js';
 import { Text, TouchableOpacity } from "react-native";
 import { ItemCard } from "../ItemCard";
 import Feather from '@expo/vector-icons/Feather';

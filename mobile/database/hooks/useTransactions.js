@@ -115,6 +115,7 @@ export function useTransactions() {
     // Delete a transaction (order or expense)
     const deleteTransaction = useCallback(async (id, type) => {
         try {
+            console.log(id, type)
             if (isNaN(parseInt(id))) throw new Error("Invalid transaction ID");
 
             const table = type === 'order' ? 'orders' : 'expenses';
