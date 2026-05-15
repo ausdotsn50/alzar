@@ -45,7 +45,6 @@ To get a local copy of this project up and running on your emulator or device, f
 
 * **Development Environment:** Any Android/iOS Emulator
 * **Physical Device Testing:** [Expo Go](https://expo.dev/go) app installed on your mobile device (optional).
-* **Package Manager:** [Node.js](https://nodejs.org/) and npm installed on your machine.
 
 ## 🛠️ Installation
 **Quick Start:** To test the app immediately without setting up a development environment, download the latest APK from the Releases section and install it directly on your Android device. (Note: iOS is currently only supported via the development server).
